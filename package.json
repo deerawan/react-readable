@@ -12,12 +12,17 @@
   },
   "devDependencies": {
     "eslint": "^4.6.0",
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-config-prettier": "^2.5.0",
     "eslint-config-react-app": "^1.0.5",
     "eslint-plugin-flowtype": "^2.33.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^5.0.1",
     "eslint-plugin-react": "^7.0.1",
     "flow-bin": "^0.54.0",
+    "husky": "^0.14.3",
+    "lint-staged": "^4.2.2",
+    "prettier": "^1.7.0",
     "react-scripts": "1.0.12"
   },
   "scripts": {
@@ -25,6 +30,13 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "flow": "flow"
+    "flow": "flow",
+    "format": "./node_modules/.bin/prettier --config ./.prettierrc --write \"src/**/*.js\""
+  },
+  "lint-staged": {
+    "*.js": [
+      "npm run format",
+      "git add"
+    ]
   }
 }
