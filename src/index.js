@@ -1,27 +1,19 @@
+/* eslint-disable react/jsx-filename-extension */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './components/App';
-import registerServiceWorker from './registerServiceWorker';
 import { BrowserRouter } from 'react-router-dom';
-import { createStore, applyMiddleware, compose } from 'redux';
-import reducer from './reducers';
+import { createStore, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
+import registerServiceWorker from './registerServiceWorker';
+import './index.css';
+import App from './components/App';
+import reducer from './reducers';
 
-import { fetchPosts } from './actions/index';
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-
-const store = createStore(
-  reducer,
-  applyMiddleware(thunk)
-)
-
-// composeEnhancers(
-//   applyMiddleware(thunk)
-// )
+const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk, logger)));
 
 ReactDOM.render(
   <Provider store={store}>
@@ -32,3 +24,5 @@ ReactDOM.render(
   document.getElementById('root')
 );
 registerServiceWorker();
+
+/* eslint-enable react/jsx-filename-extension */
