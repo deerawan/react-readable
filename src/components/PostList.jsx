@@ -6,7 +6,7 @@ const PostList = props => (
   <div>
     {props.posts.map(post => (
       <li key={post.id}>
-        {post.title}
+        <Link to={`/posts/${post.id}`}>{post.title}</Link>
         <button onClick={() => props.onDelete(post.id)}>Delete</button>
       </li>
     ))}
@@ -25,6 +25,7 @@ PostList.propTypes = {
     })
   ).isRequired,
   onDelete: PropTypes.func.isRequired,
+  // onPostClick: PropTypes.func.isRequired,
 };
 
 export default PostList;

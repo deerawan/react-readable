@@ -2,7 +2,9 @@ import * as api from '../util/api';
 
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
 export const ADD_POST_FAILED = 'ADD_POST_FAILED';
+export const EDIT_POST_SUCCESS = 'EDIT_POST_SUCCESS';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
+export const RECEIVE_POST_SUCCESS = 'RECEIVE_POST_SUCCESS';
 export const SORT_POST = 'SORT_POST';
 export const DELETE_POST_SUCCESS = 'DELETE_POST_SUCCESS';
 
@@ -19,10 +21,24 @@ export function addPostFailed() {
   };
 }
 
+export function editPostSuccess(post) {
+  return {
+    type: EDIT_POST_SUCCESS,
+    post,
+  };
+}
+
 export function receivePosts(posts) {
   return {
     type: RECEIVE_POSTS,
     posts,
+  };
+}
+
+export function receivePostSuccess(post) {
+  return {
+    type: RECEIVE_POST_SUCCESS,
+    post,
   };
 }
 
@@ -33,10 +49,10 @@ export function sortPost(sortBy, sortOrder = 'asc') {
   };
 }
 
-export function deletePostSuccess(id) {
+export function deletePostSuccess(post) {
   return {
     type: DELETE_POST_SUCCESS,
-    id,
+    post,
   };
 }
 
@@ -47,6 +63,10 @@ export function fetchPosts() {
     });
 }
 
+export function fetchPost(id) {
+  return dispatch => api.fetchPost(id).then(post => dispatch(receivePostSuccess(post)));
+}
+
 export function addPost(post) {
   return dispatch =>
     api
@@ -55,6 +75,10 @@ export function addPost(post) {
       .catch(error => dispatch(addPostFailed()));
 }
 
+export function editPost(post) {
+  return dispatch => api.editPost(post).then(response => dispatch(editPostSuccess(post)));
+}
+
 export function deletePost(id) {
-  return dispatch => api.deletePost(id).then(response => dispatch(deletePostSuccess(id)));
+  return dispatch => api.deletePost(id).then(post => dispatch(deletePostSuccess(post)));
 }

@@ -10,17 +10,15 @@ const api = axios.create({
 });
 
 export function fetchPosts() {
-  return api.get(`/posts`).then(response => {
-    console.log(response);
-    return response.data;
-  });
+  return api.get(`/posts`).then(response => response.data);
+}
+
+export function fetchPost(id) {
+  return api.get(`/posts/${id}`).then(response => response.data);
 }
 
 export function fetchCategories() {
-  return api.get(`/categories`).then(response => {
-    console.log(response);
-    return response.data.categories;
-  });
+  return api.get(`/categories`).then(response => response.data.categories);
 }
 
 export function addPost(post) {
@@ -36,9 +34,23 @@ export function addPost(post) {
     })
     .then(response => {
       console.log(response);
+      return response.data;
+    });
+}
+
+export function editPost(post) {
+  const { id, title, body } = post;
+  return api
+    .put(`/posts/${id}`, {
+      title,
+      body,
+    })
+    .then(response => {
+      console.log(response);
+      return response.data;
     });
 }
 
 export function deletePost(id) {
-  return api.delete(`/posts/${id}`);
+  return api.delete(`/posts/${id}`).then(response => response.data);
 }
