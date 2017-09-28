@@ -7,6 +7,8 @@ export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 export const RECEIVE_POST_SUCCESS = 'RECEIVE_POST_SUCCESS';
 export const SORT_POST = 'SORT_POST';
 export const DELETE_POST_SUCCESS = 'DELETE_POST_SUCCESS';
+export const VOTE_UP_POST_SUCCESS = 'VOTE_UP_POST_SUCCESS';
+export const VOTE_DOWN_POST_SUCCESS = 'VOTE_DOWN_POST_SUCCESS';
 
 export function addPostSuccess(post) {
   return {
@@ -56,6 +58,20 @@ export function deletePostSuccess(post) {
   };
 }
 
+export function voteUpPostSuccess(post) {
+  return {
+    type: VOTE_UP_POST_SUCCESS,
+    post,
+  };
+}
+
+export function voteDownPostSuccess(post) {
+  return {
+    type: VOTE_DOWN_POST_SUCCESS,
+    post,
+  };
+}
+
 export function fetchPosts() {
   return dispatch =>
     api.fetchPosts().then(response => {
@@ -81,4 +97,12 @@ export function editPost(post) {
 
 export function deletePost(id) {
   return dispatch => api.deletePost(id).then(post => dispatch(deletePostSuccess(post)));
+}
+
+export function voteUpPost(id) {
+  return dispatch => api.votePost(id, 'upVote').then(post => dispatch(voteUpPostSuccess(post)));
+}
+
+export function voteDownPost(id) {
+  return dispatch => api.votePost(id, 'downVote').then(post => dispatch(voteDownPostSuccess(post)));
 }

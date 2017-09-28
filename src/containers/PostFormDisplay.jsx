@@ -2,13 +2,10 @@ import { connect } from 'react-redux';
 import { addPost, fetchPost, editPost } from '../actions';
 import PostForm from '../components/PostForm';
 
-const mapStateToProps = ({ post, category }) => {
-  console.log(post);
-  return {
+const mapStateToProps = ({ post, category }) => ({
     categories: category,
     post: post.selectedPost,
-  };
-};
+  });
 
 const mapDispatchToProps = dispatch => ({
   addPost: post => dispatch(addPost(post)),

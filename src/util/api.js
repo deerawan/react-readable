@@ -54,3 +54,10 @@ export function editPost(post) {
 export function deletePost(id) {
   return api.delete(`/posts/${id}`).then(response => response.data);
 }
+
+export function votePost(id, option) {
+  return api.post(`/posts/${id}`, { option }).then(response => {
+    console.log(response);
+    return response.data;
+  });
+}

@@ -6,8 +6,11 @@ const PostList = props => (
   <div>
     {props.posts.map(post => (
       <li key={post.id}>
+        <button onClick={() => props.onVoteUp(post.id)}>Vote up</button>
+        <button onClick={() => props.onVoteDown(post.id)}>Vote down</button>
         <Link to={`/posts/${post.id}`}>{post.title}</Link>
         <button onClick={() => props.onDelete(post.id)}>Delete</button>
+        <span>Vote: {post.voteScore}</span>
       </li>
     ))}
     <Link to="/post-new">Add new post</Link>
@@ -25,7 +28,8 @@ PostList.propTypes = {
     })
   ).isRequired,
   onDelete: PropTypes.func.isRequired,
-  // onPostClick: PropTypes.func.isRequired,
+  onVoteUp: PropTypes.func.isRequired,
+  onVoteDown: PropTypes.func.isRequired,
 };
 
 export default PostList;
