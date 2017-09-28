@@ -5,6 +5,7 @@ export const ADD_POST_FAILED = 'ADD_POST_FAILED';
 export const EDIT_POST_SUCCESS = 'EDIT_POST_SUCCESS';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 export const RECEIVE_POST_SUCCESS = 'RECEIVE_POST_SUCCESS';
+export const RECEIVE_POSTS_BY_CATEGORY_SUCCESS = 'RECEIVE_POSTS_BY_CATEGORY_SUCCESS';
 export const SORT_POST = 'SORT_POST';
 export const DELETE_POST_SUCCESS = 'DELETE_POST_SUCCESS';
 export const VOTE_UP_POST_SUCCESS = 'VOTE_UP_POST_SUCCESS';
@@ -72,6 +73,13 @@ export function voteDownPostSuccess(post) {
   };
 }
 
+export function receivePostsByCategorySuccess(posts) {
+  return {
+    type: RECEIVE_POSTS_BY_CATEGORY_SUCCESS,
+    posts,
+  };
+}
+
 export function fetchPosts() {
   return dispatch =>
     api.fetchPosts().then(response => {
@@ -81,6 +89,10 @@ export function fetchPosts() {
 
 export function fetchPost(id) {
   return dispatch => api.fetchPost(id).then(post => dispatch(receivePostSuccess(post)));
+}
+
+export function fetchPostsByCategory(category) {
+  return dispatch => api.fetchPostsByCategory(category).then(posts => dispatch(receivePostsByCategorySuccess(posts)));
 }
 
 export function addPost(post) {

@@ -7,9 +7,10 @@ import PostListDisplay from './PostListDisplay';
 const Main = () => (
   <div>
     <Route exact path="/" component={PostListDisplay} />
-    <Route exact path="/posts/:id" component={PostDetail} />
+    <Route exact path="/:category" component={PostListDisplay} />
+    <Route exact path="/:category/:id" component={PostDetail} />
     <Route exact path="/posts/edit/:id" component={PostFormDisplay} />
-    <Route exact path="/post-new" component={PostFormDisplay} />
+    <Route exact path="/posts/new" component={PostFormDisplay} />
   </div>
 );
 

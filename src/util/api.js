@@ -56,8 +56,9 @@ export function deletePost(id) {
 }
 
 export function votePost(id, option) {
-  return api.post(`/posts/${id}`, { option }).then(response => {
-    console.log(response);
-    return response.data;
-  });
+  return api.post(`/posts/${id}`, { option }).then(response => response.data);
+}
+
+export function fetchPostsByCategory(category) {
+  return api.get(`/${category}/posts`).then(response => response.data);
 }

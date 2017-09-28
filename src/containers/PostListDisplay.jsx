@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchPosts, sortPost, deletePost, voteUpPost, voteDownPost } from '../actions';
+import { fetchPosts, sortPost, deletePost, voteUpPost, voteDownPost, fetchPostsByCategory } from '../actions';
 import PostList from '../components/PostList';
 import SortSelect from '../components/SortSelect';
 
 class PostListDisplay extends Component {
   componentDidMount() {
-    this.props.fetchPosts();
+    const { category } = this.props.match.params;
+
+    if (category) {
+      return this.props.fetchPostsByCategory(category);
+    }
+
+    return this.props.fetchPosts();
   }
 
   render() {
@@ -41,6 +47,7 @@ PostListDisplay.propTypes = {
   fetchPosts: PropTypes.func.isRequired,
   voteUpPost: PropTypes.func.isRequired,
   voteDownPost: PropTypes.func.isRequired,
+  fetchPostsByCategory: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ post }) => ({
@@ -49,6 +56,7 @@ const mapStateToProps = ({ post }) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchPosts: () => dispatch(fetchPosts()),
+  fetchPostsByCategory: category => dispatch(fetchPostsByCategory(category)),
   sortPost: (sortBy, sortOrder) => dispatch(sortPost(sortBy, sortOrder)),
   deletePost: id => dispatch(deletePost(id)),
   voteUpPost: id => dispatch(voteUpPost(id)),

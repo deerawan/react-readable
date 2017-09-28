@@ -13,7 +13,7 @@ const PostList = props => (
         <span>Vote: {post.voteScore}</span>
       </li>
     ))}
-    <Link to="/post-new">Add new post</Link>
+    <Link to="/posts/new">Add new post</Link>
   </div>
 );
 

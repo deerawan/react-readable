@@ -8,6 +8,7 @@ import {
   VOTE_UP_POST_SUCCESS,
   VOTE_DOWN_POST_SUCCESS,
   SORT_POST,
+  RECEIVE_POSTS_BY_CATEGORY_SUCCESS,
 } from '../actions';
 
 const initialState = {
@@ -55,10 +56,15 @@ function postReducer(state = initialState, action) {
       };
     }
     case RECEIVE_POST_SUCCESS: {
-      console.log(action);
       return {
         ...state,
         selectedPost: action.post,
+      };
+    }
+    case RECEIVE_POSTS_BY_CATEGORY_SUCCESS: {
+      return {
+        ...state,
+        posts: action.posts,
       };
     }
     case SORT_POST: {

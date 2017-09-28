@@ -1,14 +1,23 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchCategories } from '../actions/category';
+import { fetchPostsByCategory } from '../actions/index';
 import CategoryList from '../components/CategoryList';
 
-const Sidebar = props => (
-  <div>
-    <CategoryList categories={props.categories} />
-  </div>
-);
+class Sidebar extends Component {
+  componentDidMount() {
+    this.props.fetchCategories();
+  }
+
+  render() {
+    return (
+      <div>
+        <CategoryList categories={this.props.categories} onCategoryClick={this.props.fetchPostByCategory} />
+      </div>
+    );
+  }
+}
 
 Sidebar.propTypes = {
   categories: PropTypes.arrayOf(
@@ -17,6 +26,8 @@ Sidebar.propTypes = {
       path: PropTypes.string,
     })
   ).isRequired,
+  fetchCategories: PropTypes.func.isRequired,
+  fetchPostByCategory: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ category }) => ({
@@ -24,7 +35,8 @@ const mapStateToProps = ({ category }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchCategories: dispatch(fetchCategories()),
+  fetchCategories: () => dispatch(fetchCategories()),
+  fetchPostByCategory: category => dispatch(fetchPostsByCategory(category)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
