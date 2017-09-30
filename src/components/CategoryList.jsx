@@ -1,17 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import Avatar from 'material-ui/Avatar';
+import FolderIcon from 'material-ui-icons/Folder';
 
 const CategoryList = props => (
-  <div>
+  <List>
     {props.categories.map(category => (
-      <li key={category.path}>
-        <Link to={`/${category.name}`} onClick={() => props.onCategoryClick(category.name)}>
-          {category.name}
-        </Link>
-      </li>
+      <Link
+        key={category.name}
+        to={`/${category.name}`}
+        onClick={() => props.onCategoryClick(category.name)}
+        className="menu-item"
+      >
+        <ListItem button>
+          <Avatar>
+            <FolderIcon />
+          </Avatar>
+          <ListItemText primary={category.name} />
+        </ListItem>
+      </Link>
     ))}
-  </div>
+  </List>
 );
 
 CategoryList.propTypes = {
