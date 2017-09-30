@@ -8,6 +8,7 @@ import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
+import { Link } from 'react-router-dom';
 import './App.css';
 import Main from '../containers/Main';
 import Sidebar from '../containers/Sidebar';
@@ -89,9 +90,11 @@ const App = props => {
         </Drawer>
         <main className={classes.content}>
           <Main />
-          <Button fab color="primary" aria-label="add" className={classes.addButton}>
-            <AddIcon />
-          </Button>
+          <Link to="/posts/new">
+            <Button fab color="primary" aria-label="add" className={classes.addButton}>
+              <AddIcon />
+            </Button>
+          </Link>
         </main>
       </div>
     </div>

@@ -19,7 +19,7 @@ class PostListDisplay extends Component {
   render() {
     return (
       <div>
-        <SortSelect onSortChange={this.props.sortPost} />
+        <SortSelect sort={this.props.selectedSort} onSortChange={this.props.sortPost} />
         <PostList
           posts={this.props.posts}
           onVoteUp={this.props.voteUpPost}
@@ -48,10 +48,15 @@ PostListDisplay.propTypes = {
   voteUpPost: PropTypes.func.isRequired,
   voteDownPost: PropTypes.func.isRequired,
   fetchPostsByCategory: PropTypes.func.isRequired,
+  selectedSort: PropTypes.shape({
+    by: PropTypes.string.isRequired,
+    order: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 const mapStateToProps = ({ post }) => ({
   posts: post.posts,
+  selectedSort: post.selectedSort,
 });
 
 const mapDispatchToProps = dispatch => ({

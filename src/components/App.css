@@ -26,3 +26,12 @@
 .menu-item {
   text-decoration: none;
 }
+
+/** POST LIST */
+.sort-select-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 10px;
+}

@@ -13,6 +13,10 @@ import {
 
 const initialState = {
   posts: [],
+  selectedSort: {
+    by: 'voteScore',
+    order: 'desc',
+  },
   selectedPost: {
     id: '',
     title: '',
@@ -70,15 +74,20 @@ function postReducer(state = initialState, action) {
     case SORT_POST: {
       const { sortBy, sortOrder } = action;
       const { posts } = state;
+      const { oldSelectedSort } = state;
       let newPosts = posts;
 
       if (sortBy === 'voteScore') {
-        newPosts = _.orderBy(posts, ['voteScore']);
+        newPosts = _.orderBy(posts, ['voteScore'], [sortOrder]);
       } else if (sortBy === 'timestamp') {
-        newPosts = _.orderBy(posts, ['timestamp']);
+        newPosts = _.orderBy(posts, ['timestamp'], [sortOrder]);
       }
       return {
         ...state,
+        selectedSort: {
+          ...oldSelectedSort,
+          by: sortBy,
+        },
         posts: newPosts,
       };
     }
