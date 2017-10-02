@@ -5,16 +5,12 @@ export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
 export function receiveCategories(categories) {
   return {
     type: RECEIVE_CATEGORIES,
-    categories
-  }
+    categories,
+  };
 }
 
 export function fetchCategories() {
-  return dispatch => {
-    return api
-      .fetchCategories()
-      .then(response => {
-        dispatch(receiveCategories(response))
-      })
-  }
+  return dispatch => api.fetchCategories().then(response => {
+      dispatch(receiveCategories(response));
+    });
 }

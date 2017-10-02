@@ -9,7 +9,7 @@ const Post = props => {
       {title}
       <br />
       {body}
-      <Link to={`/posts/edit/${id}`}>Edit</Link>
+      {/* <Link to={`/posts/edit/${id}`}>Edit</Link> */}
     </div>
   );
 };

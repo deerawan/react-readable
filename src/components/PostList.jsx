@@ -118,10 +118,10 @@ const PostList = props => {
                   <span>{post.category}</span>
                 </span>
               </div>
-              <Button raised color="primary" className={classes.button} onClick={() => props.onDelete(post.id)}>
+              <Button raised color="primary" className={classes.button}>
                 <ModeEdit className={classes.buttonIcon} /> Edit
               </Button>
-              <Button raised color="accent" className={classes.button}>
+              <Button raised color="accent" className={classes.button} onClick={() => props.onDelete(post.id)}>
                 <Delete className={classes.buttonIcon} /> Delete
               </Button>
             </div>
