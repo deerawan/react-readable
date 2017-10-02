@@ -35,3 +35,21 @@
   align-items: center;
   margin-bottom: 10px;
 }
+
+button .icon-button {
+  width: 15px;
+  height: 15px;
+  margin-right: 4px;
+}
+
+.link-button {
+  text-decoration: none
+}
+
+.button-actions {
+  margin-top: 20px;
+}
+
+.button-actions button {
+  margin-right: 10px;
+}

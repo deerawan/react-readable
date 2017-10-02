@@ -1,3 +1,4 @@
+import { push } from 'react-router-redux';
 import * as api from '../util/api';
 
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
@@ -49,6 +50,7 @@ export function sortPost(sortBy, sortOrder = 'asc') {
   return {
     type: SORT_POST,
     sortBy,
+    sortOrder,
   };
 }
 
@@ -99,12 +101,19 @@ export function addPost(post) {
   return dispatch =>
     api
       .addPost(post)
-      .then(response => dispatch(addPostSuccess(post)))
+      .then(response => {
+        dispatch(addPostSuccess(post));
+        dispatch(push(`/${post.category}/${post.id}`));
+      })
       .catch(error => dispatch(addPostFailed()));
 }
 
 export function editPost(post) {
-  return dispatch => api.editPost(post).then(response => dispatch(editPostSuccess(post)));
+  return dispatch =>
+    api.editPost(post).then(response => {
+      dispatch(editPostSuccess(post));
+      dispatch(push(`/${post.category}/${post.id}`));
+    });
 }
 
 export function deletePost(id) {

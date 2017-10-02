@@ -42,15 +42,15 @@ class SortSelect extends Component {
       <div className="sort-select-container">
         <span className="sort-order">
           {this.state.sortOrder === SORT_ORDER.asc ? (
-            <Tooltip id="tooltip-sort-desc-icon" title="Sort desc" placement="bottom">
-              <IconButton aria-label="Sort desc" onClick={() => this.handleSortOrderChange(SORT_ORDER.desc)}>
-                <ArrowDownwardIcon />
+            <Tooltip id="tooltip-sort-desc-icon" title="Sort asc" placement="bottom">
+              <IconButton aria-label="Sort asc" onClick={() => this.handleSortOrderChange(SORT_ORDER.desc)}>
+                <ArrowUpwardIcon />
               </IconButton>
             </Tooltip>
           ) : (
-            <Tooltip id="tooltip-sort-desc-icon" title="Sort asc" placement="bottom">
-              <IconButton aria-label="Sort asc" onClick={() => this.handleSortOrderChange(SORT_ORDER.asc)}>
-                <ArrowUpwardIcon />
+            <Tooltip id="tooltip-sort-desc-icon" title="Sort desc" placement="bottom">
+              <IconButton aria-label="Sort desc" onClick={() => this.handleSortOrderChange(SORT_ORDER.asc)}>
+                <ArrowDownwardIcon />
               </IconButton>
             </Tooltip>
           )}

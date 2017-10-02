@@ -4,19 +4,19 @@ import { withStyles } from 'material-ui/styles';
 import { Link } from 'react-router-dom';
 import Card, { CardContent } from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
-import Button from 'material-ui/Button';
 import blue from 'material-ui/colors/blue';
 import green from 'material-ui/colors/green';
 import red from 'material-ui/colors/red';
 import Typography from 'material-ui/Typography';
-import ModeEdit from 'material-ui-icons/ModeEdit';
-import Delete from 'material-ui-icons/Delete';
 import AccessTime from 'material-ui-icons/AccessTime';
 import AccountCircle from 'material-ui-icons/AccountCircle';
 import IconButton from 'material-ui/IconButton';
 import ThumbUp from 'material-ui-icons/ThumbUp';
 import ThumbDown from 'material-ui-icons/ThumbDown';
 import Folder from 'material-ui-icons/Folder';
+import { format } from 'date-fns';
+import EditButton from './EditButton';
+import DeleteButton from './DeleteButton';
 
 const styles = theme => ({
   card: {
@@ -101,13 +101,13 @@ const PostList = props => {
               </IconButton>
             </div>
             <div className={classes.post}>
-              <Link to={`/posts/${post.id}`} className={classes.headlineLink}>
+              <Link to={`/${post.category}/${post.id}`} className={classes.headlineLink}>
                 <Typography type="headline">{post.title}</Typography>
               </Link>
               <div className={classes.postMeta}>
                 <span className={classes.postMetaItem}>
                   <AccessTime className={classes.buttonIcon} />
-                  <span>{new Date(post.timestamp).toDateString()}</span>
+                  <span>{format(new Date(post.timestamp), 'DD MMM YYYY HH:mm')}</span>
                 </span>
                 <span className={classes.postMetaItem}>
                   <AccountCircle className={classes.buttonIcon} />
@@ -118,16 +118,18 @@ const PostList = props => {
                   <span>{post.category}</span>
                 </span>
               </div>
-              <Button raised color="primary" className={classes.button}>
-                <ModeEdit className={classes.buttonIcon} /> Edit
-              </Button>
-              <Button raised color="accent" className={classes.button} onClick={() => props.onDelete(post.id)}>
-                <Delete className={classes.buttonIcon} /> Delete
-              </Button>
+              <div className="button-actions">
+                <Link to={`/posts/edit/${post.id}`} className="link-button">
+                  <EditButton />
+                </Link>
+                <DeleteButton onClick={() => props.onDelete(post.id)} />
+              </div>
             </div>
           </CardContent>
         </Card>
       ))}
+
+      {props.posts.length === 0 ? <Typography type="headline">No posts under this category</Typography> : ''}
     </div>
   );
 };

@@ -8,6 +8,8 @@ import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
+import HomeIcon from 'material-ui-icons/Home';
+import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import { Link } from 'react-router-dom';
 import './App.css';
 import Main from '../containers/Main';
@@ -18,7 +20,7 @@ const drawerWidth = 240;
 const styles = theme => ({
   root: {
     width: '100%',
-    height: '768px',
+    minHeight: '768px',
     zIndex: 1,
     overflow: 'hidden',
   },
@@ -27,6 +29,8 @@ const styles = theme => ({
     display: 'flex',
     width: '100%',
     height: '100%',
+    minHeight: '768px',
+    backgroundColor: '#fafafa',
   },
   appBar: {
     position: 'absolute',
@@ -46,7 +50,10 @@ const styles = theme => ({
   content: {
     backgroundColor: theme.palette.background.default,
     width: '100%',
-    padding: theme.spacing.unit * 3,
+    paddingTop: theme.spacing.unit * 7,
+    paddingBottom: theme.spacing.unit * 7,
+    paddingLeft: theme.spacing.unit * 15,
+    paddingRight: theme.spacing.unit * 15,
     height: 'calc(100% - 56px)',
     marginTop: 56,
     [theme.breakpoints.up('sm')]: {
@@ -70,7 +77,7 @@ const App = props => {
         <AppBar className={classes.appBar}>
           <Toolbar>
             <Typography type="title" color="inherit" noWrap>
-              All Posts
+              Home
             </Typography>
           </Toolbar>
         </AppBar>
@@ -85,6 +92,15 @@ const App = props => {
               Readable
             </Typography>
           </div>
+          <Divider />
+          <Link to="/" className="link-button">
+            <ListItem button>
+              <ListItemIcon>
+                <HomeIcon />
+              </ListItemIcon>
+              <ListItemText primary="Home" />
+            </ListItem>
+          </Link>
           <Divider />
           <Sidebar className="sidebar" />
         </Drawer>

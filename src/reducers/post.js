@@ -54,9 +54,10 @@ function postReducer(state = initialState, action) {
       };
     }
     case RECEIVE_POSTS: {
+      const { selectedSort: { by, order } } = state;
       return {
         ...state,
-        posts: action.posts,
+        posts: sortPosts(action.posts, by, order),
       };
     }
     case RECEIVE_POST_SUCCESS: {
@@ -72,23 +73,18 @@ function postReducer(state = initialState, action) {
       };
     }
     case SORT_POST: {
-      const { sortBy, sortOrder } = action;
+      const { selectedSort } = state;
+      const { by, order } = selectedSort;
+      const { sortBy = by, sortOrder = order } = action;
       const { posts } = state;
-      const { oldSelectedSort } = state;
-      let newPosts = posts;
 
-      if (sortBy === 'voteScore') {
-        newPosts = _.orderBy(posts, ['voteScore'], [sortOrder]);
-      } else if (sortBy === 'timestamp') {
-        newPosts = _.orderBy(posts, ['timestamp'], [sortOrder]);
-      }
       return {
         ...state,
         selectedSort: {
-          ...oldSelectedSort,
+          ...selectedSort,
           by: sortBy,
         },
-        posts: newPosts,
+        posts: sortPosts(posts, sortBy, sortOrder),
       };
     }
     case VOTE_UP_POST_SUCCESS:
@@ -105,6 +101,18 @@ function postReducer(state = initialState, action) {
     default:
       return state;
   }
+}
+
+function sortPosts(posts, sortBy, sortOrder) {
+  let newOrderedPosts = posts;
+
+  if (sortBy === 'voteScore') {
+    newOrderedPosts = _.orderBy(posts, ['voteScore'], [sortOrder]);
+  } else if (sortBy === 'timestamp') {
+    newOrderedPosts = _.orderBy(posts, ['timestamp'], [sortOrder]);
+  }
+
+  return newOrderedPosts;
 }
 
 export default postReducer;

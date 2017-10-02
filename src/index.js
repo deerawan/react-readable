@@ -8,18 +8,23 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
+import createHistory from 'history/createBrowserHistory';
+import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 import App from './components/App';
 import reducer from './reducers';
 
-const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk, logger)));
+const history = createHistory();
+const router = routerMiddleware(history);
+
+const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk, logger, router)));
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
+    <ConnectedRouter history={history}>
       <App />
-    </BrowserRouter>
+    </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
 );
