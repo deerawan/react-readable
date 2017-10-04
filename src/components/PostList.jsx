@@ -3,20 +3,17 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import { Link } from 'react-router-dom';
 import Card, { CardContent } from 'material-ui/Card';
-import Avatar from 'material-ui/Avatar';
 import blue from 'material-ui/colors/blue';
 import green from 'material-ui/colors/green';
 import red from 'material-ui/colors/red';
 import Typography from 'material-ui/Typography';
 import AccessTime from 'material-ui-icons/AccessTime';
 import AccountCircle from 'material-ui-icons/AccountCircle';
-import IconButton from 'material-ui/IconButton';
-import ThumbUp from 'material-ui-icons/ThumbUp';
-import ThumbDown from 'material-ui-icons/ThumbDown';
 import Folder from 'material-ui-icons/Folder';
 import { format } from 'date-fns';
 import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
+import VoteUpDown from '../components/VoteUpDown';
 
 const styles = theme => ({
   card: {
@@ -89,25 +86,24 @@ const PostList = props => {
       {props.posts.map(post => (
         <Card className={classes.card}>
           <CardContent className={classes.content}>
-            <div className={classes.vote}>
-              <IconButton aria-label="Vote up" onClick={() => props.onVoteUp(post.id)} className={classes.voteUp}>
-                <ThumbUp />
-              </IconButton>
-              <Avatar className={post.voteScore >= 0 ? classes.scorePositive : classes.scoreNegative}>
-                <span>{post.voteScore}</span>
-              </Avatar>
-              <IconButton aria-label="Vote down" onClick={() => props.onVoteDown(post.id)} className={classes.voteDown}>
-                <ThumbDown />
-              </IconButton>
-            </div>
+            <VoteUpDown
+              score={post.voteScore}
+              onVoteUp={() => props.onVoteUp(post.id)}
+              onVoteDown={() => props.onVoteDown(post.id)}
+            />
             <div className={classes.post}>
-              <Link to={`/${post.category}/${post.id}`} className={classes.headlineLink}>
+              <Link
+                to={`/${post.category}/${post.id}`}
+                className={classes.headlineLink}
+              >
                 <Typography type="headline">{post.title}</Typography>
               </Link>
               <div className={classes.postMeta}>
                 <span className={classes.postMetaItem}>
                   <AccessTime className={classes.buttonIcon} />
-                  <span>{format(new Date(post.timestamp), 'DD MMM YYYY HH:mm')}</span>
+                  <span>
+                    {format(new Date(post.timestamp), 'DD MMM YYYY HH:mm')}
+                  </span>
                 </span>
                 <span className={classes.postMetaItem}>
                   <AccountCircle className={classes.buttonIcon} />
@@ -129,7 +125,11 @@ const PostList = props => {
         </Card>
       ))}
 
-      {props.posts.length === 0 ? <Typography type="headline">No posts under this category</Typography> : ''}
+      {props.posts.length === 0 ? (
+        <Typography type="headline">No posts under this category</Typography>
+      ) : (
+        ''
+      )}
     </div>
   );
 };

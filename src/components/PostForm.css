@@ -2,11 +2,6 @@
   padding: 16px;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: row;
-}
-
 .body-input {
   width: 80%;
 }

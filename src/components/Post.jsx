@@ -10,19 +10,21 @@ const Post = props => {
   const { id, title, body } = props.post;
   return (
     <div>
-      <Typography type="display2" gutterBottom>
-        {title}
-      </Typography>
+      <div className="post-detail">
+        <Typography type="display2" gutterBottom>
+          {title}
+        </Typography>
 
-      <Typography type="body1" gutterBottom>
-        {body}
-      </Typography>
+        <Typography type="body1" gutterBottom>
+          {body}
+        </Typography>
 
-      <div className="post-actions">
-        <Link to={`/posts/edit/${id}`} className="link-button">
-          <EditButton />
-        </Link>
-        <DeleteButton onClick={() => props.onDelete(id)} />
+        <div className="button-actions">
+          <Link to={`/posts/edit/${id}`} className="link-button">
+            <EditButton />
+          </Link>
+          <DeleteButton onClick={() => props.onDelete(id)} />
+        </div>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchCategories } from '../actions/category';
-import { fetchPostsByCategory } from '../actions/index';
+import { fetchPostsByCategory } from '../actions/post';
 import CategoryList from '../components/CategoryList';
 
 class Sidebar extends Component {

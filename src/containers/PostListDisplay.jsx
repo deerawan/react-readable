@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchPosts, sortPost, deletePost, voteUpPost, voteDownPost, fetchPostsByCategory } from '../actions';
+import { fetchPosts, sortPost, deletePost, voteUpPost, voteDownPost, fetchPostsByCategory } from '../actions/post';
 import PostList from '../components/PostList';
 import SortSelect from '../components/SortSelect';
 

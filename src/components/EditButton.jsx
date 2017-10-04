@@ -1,13 +1,18 @@
 import React from 'react';
 import Button from 'material-ui/Button';
-import ModeEdit from 'material-ui-icons/ModeEdit';
+import ModeEditIcon from 'material-ui-icons/ModeEdit';
+import PropTypes from 'prop-types';
 
 const EditButton = props => (
   <span>
-    <Button raised color="primary">
-      <ModeEdit className="icon-button" /> Edit
+    <Button raised color="primary" onClick={props.onClick}>
+      <ModeEditIcon className="icon-button" /> Edit
     </Button>
   </span>
 );
+
+EditButton.propTypes = {
+  onClick: PropTypes.func,
+};
 
 export default EditButton;

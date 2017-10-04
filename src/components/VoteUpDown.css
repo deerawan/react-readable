@@ -1,0 +1,18 @@
+.vote-up-down {
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+}
+
+.vote-up-down > .vote-icon {
+  cursor: pointer;
+  color: #B9B9B9;
+}
+
+.vote-up-down > .vote-score-negative {
+  background: #EF5350;
+}
+
+.vote-up-down > .vote-score-positive {
+  background: #66BB6A;
+}

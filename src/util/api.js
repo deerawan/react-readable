@@ -32,10 +32,7 @@ export function addPost(post) {
       author,
       category,
     })
-    .then(response => {
-      console.log(response);
-      return response.data;
-    });
+    .then(response => response.data);
 }
 
 export function editPost(post) {
@@ -45,10 +42,7 @@ export function editPost(post) {
       title,
       body,
     })
-    .then(response => {
-      console.log(response);
-      return response.data;
-    });
+    .then(response => response.data);
 }
 
 export function deletePost(id) {
@@ -61,4 +55,37 @@ export function votePost(id, option) {
 
 export function fetchPostsByCategory(category) {
   return api.get(`/${category}/posts`).then(response => response.data);
+}
+
+/** COMMENTS */
+
+export function fetchCommentsByPost(postId) {
+  return api.get(`/posts/${postId}/comments`).then(response => response.data);
+}
+
+export function addComment(comment) {
+  const { author, body, parentId } = comment;
+  return api
+    .post('/comments', {
+      id: uuid.v4(),
+      timestamp: new Date().getTime(),
+      author,
+      body,
+      parentId,
+    })
+    .then(response => response.data);
+}
+
+export function editComment(comment) {
+  const { id, body } = comment;
+  return api
+    .put(`/comments/${id}`, {
+      body,
+      timestamp: new Date().getTime(),
+    })
+    .then(response => response.data);
+}
+
+export function deleteComment(id) {
+  return api.delete(`/comments/${id}`).then(response => response.data);
 }

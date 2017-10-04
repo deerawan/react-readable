@@ -53,3 +53,21 @@ button .icon-button {
 .button-actions button {
   margin-right: 10px;
 }
+
+/* FORM */
+
+.form-group {
+  display: flex;
+  flex-direction: row;
+}
+
+/* META */
+.meta-item {
+  padding-right: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.meta-icon {
+  margin-right: 3px;
+}

@@ -43,6 +43,7 @@ class PostForm extends Component {
     }
   }
 
+  // TODO: change with componentWillMount
   componentWillReceiveProps(nextProps) {
     const { post: { id } } = nextProps;
     if (id) {

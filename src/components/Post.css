@@ -1,7 +1,7 @@
-.post-actions {
-  margin-top: 20px;
+.post-detail {
+  padding-bottom: 30px;
 }
 
-.post-actions button {
-  margin-right: 7px;
+.post-comment-list {
+  padding: 20px 0;
 }
