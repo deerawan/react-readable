@@ -23,6 +23,7 @@ const initialState = {
     body: '',
     author: '',
     category: '',
+    commentsCount: 0,
   },
 };
 

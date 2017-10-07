@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Typography from 'material-ui/Typography';
 import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
+import PostMeta from './PostMeta';
 import './Post.css';
 
 const Post = props => {
@@ -14,6 +15,7 @@ const Post = props => {
         <Typography type="display2" gutterBottom>
           {title}
         </Typography>
+        <PostMeta post={props.post} />
 
         <Typography type="body1" gutterBottom>
           {body}

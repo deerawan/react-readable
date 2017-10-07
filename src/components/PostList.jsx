@@ -7,13 +7,11 @@ import blue from 'material-ui/colors/blue';
 import green from 'material-ui/colors/green';
 import red from 'material-ui/colors/red';
 import Typography from 'material-ui/Typography';
-import AccessTime from 'material-ui-icons/AccessTime';
-import AccountCircle from 'material-ui-icons/AccountCircle';
-import Folder from 'material-ui-icons/Folder';
-import { format } from 'date-fns';
+
 import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
 import VoteUpDown from '../components/VoteUpDown';
+import PostMeta from './PostMeta';
 
 const styles = theme => ({
   card: {
@@ -98,22 +96,7 @@ const PostList = props => {
               >
                 <Typography type="headline">{post.title}</Typography>
               </Link>
-              <div className={classes.postMeta}>
-                <span className={classes.postMetaItem}>
-                  <AccessTime className={classes.buttonIcon} />
-                  <span>
-                    {format(new Date(post.timestamp), 'DD MMM YYYY HH:mm')}
-                  </span>
-                </span>
-                <span className={classes.postMetaItem}>
-                  <AccountCircle className={classes.buttonIcon} />
-                  <span>{post.author}</span>
-                </span>
-                <span className={classes.postMetaItem}>
-                  <Folder className={classes.buttonIcon} />
-                  <span>{post.category}</span>
-                </span>
-              </div>
+              <PostMeta post={post} />
               <div className="button-actions">
                 <Link to={`/posts/edit/${post.id}`} className="link-button">
                   <EditButton />
@@ -142,6 +125,7 @@ PostList.propTypes = {
       title: PropTypes.string,
       body: PropTypes.string,
       timestamp: PropTypes.number,
+      commentsCount: PropTypes.commentsCount,
     })
   ).isRequired,
   onDelete: PropTypes.func.isRequired,

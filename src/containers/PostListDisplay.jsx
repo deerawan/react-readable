@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchPosts, sortPost, deletePost, voteUpPost, voteDownPost, fetchPostsByCategory } from '../actions/post';
+import {
+  fetchPosts,
+  sortPost,
+  deletePost,
+  voteUpPost,
+  voteDownPost,
+  fetchPostsByCategory,
+} from '../actions/post';
 import PostList from '../components/PostList';
 import SortSelect from '../components/SortSelect';
 
@@ -19,7 +26,10 @@ class PostListDisplay extends Component {
   render() {
     return (
       <div>
-        <SortSelect sort={this.props.selectedSort} onSortChange={this.props.sortPost} />
+        <SortSelect
+          sort={this.props.selectedSort}
+          onSortChange={this.props.sortPost}
+        />
         <PostList
           posts={this.props.posts}
           onVoteUp={this.props.voteUpPost}

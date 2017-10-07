@@ -1,5 +1,8 @@
+// @flow
+
 import * as axios from 'axios';
 import * as uuid from 'uuid';
+import type { Post, Category } from './definition';
 
 const api = axios.create({
   baseURL: 'http://localhost:3001',
@@ -9,15 +12,34 @@ const api = axios.create({
   },
 });
 
-export function fetchPosts() {
-  return api.get(`/posts`).then(response => response.data);
+export function fetchPosts(): Post[] {
+  return api.get(`/posts`).then(response => {
+    const { data: posts } = response;
+
+    const getCommentsPromises = posts.map(p => fetchCommentsByPost(p.id));
+    return Promise.all(getCommentsPromises).then(comments => {
+      const postsWithComments = posts.map((post, index) => ({
+        ...post,
+        commentsCount: comments[index].length,
+      }));
+
+      return postsWithComments;
+    });
+  });
 }
 
-export function fetchPost(id) {
-  return api.get(`/posts/${id}`).then(response => response.data);
+export function fetchPost(id): Post {
+  return api.get(`/posts/${id}`).then(response => {
+    const { data: post } = response;
+
+    return fetchCommentsByPost(post.id).then(comments => ({
+        ...post,
+        commentsCount: comments.length,
+      }));
+  });
 }
 
-export function fetchCategories() {
+export function fetchCategories(): Category[] {
   return api.get(`/categories`).then(response => response.data.categories);
 }
 

@@ -1,0 +1,21 @@
+.post-meta-container {
+  color: #666;
+  font-size: 14px;
+  margin-top: 7px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.post-meta-item {
+  padding-right: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.post-meta-container .post-meta-icon {
+  width: 15px;
+  height: 15px;
+  margin-right: 4px;
+}
