@@ -1,0 +1,12 @@
+.post-detail-container {
+  padding-bottom: 30px;
+}
+
+.post-detail-content {
+  margin: 45px 0;
+}
+
+.post-detail-comment-list,
+.post-detail-comment-form {
+  padding: 20px 0;
+}

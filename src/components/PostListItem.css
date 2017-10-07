@@ -1,0 +1,5 @@
+.list-item-content.post {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

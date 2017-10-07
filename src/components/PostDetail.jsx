@@ -5,21 +5,23 @@ import Typography from 'material-ui/Typography';
 import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
 import PostMeta from './PostMeta';
-import './Post.css';
+import './PostDetail.css';
 
 const Post = props => {
   const { id, title, body } = props.post;
   return (
     <div>
-      <div className="post-detail">
+      <div className="post-detail-container">
         <Typography type="display2" gutterBottom>
           {title}
         </Typography>
         <PostMeta post={props.post} />
 
-        <Typography type="body1" gutterBottom>
-          {body}
-        </Typography>
+        <div className="post-detail-content">
+          <Typography type="body1" gutterBottom>
+            {body}
+          </Typography>
+        </div>
 
         <div className="button-actions">
           <Link to={`/posts/edit/${id}`} className="link-button">

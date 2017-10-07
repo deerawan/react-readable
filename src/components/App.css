@@ -61,13 +61,56 @@ button .icon-button {
   flex-direction: row;
 }
 
+/* LIST */
+.list-item-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 16px;
+  margin-bottom: 10px;
+}
+
+.list-item-content {
+  flex-grow: 1
+}
+
+.list-item-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-self: center;
+}
+
+.list-item-actions button {
+  margin-bottom: 7px;
+  width: 100px;
+}
+
 /* META */
-.meta-item {
+.meta-container {
+  color: #666;
+  font-size: 14px;
+  margin-top: 7px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.meta-container .meta-item {
   padding-right: 10px;
   display: flex;
   align-items: center;
 }
 
-.meta-icon {
-  margin-right: 3px;
+.meta-container .meta-icon {
+  width: 15px;
+  height: 15px;
+  margin-right: 4px;
+}
+
+/* MISC */
+.no-decor {
+  text-decoration: none;
 }

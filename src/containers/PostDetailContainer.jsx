@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
 import { fetchPost, deletePost } from '../actions/post';
@@ -15,38 +14,58 @@ import {
 } from '../actions/comment';
 import CommentForm from '../components/CommentForm';
 import CommentList from '../components/CommentList';
-import Post from '../components/Post';
+import PostDetail from '../components/PostDetail';
 import SortSelect from '../components/SortSelect';
+import type { Post, Comment, SortList } from '../util/definition';
 
-class PostDetail extends Component {
+type Props = {
+  post: Post,
+  comments: Comment[],
+  fetchPost: Function,
+  deletePost: Function,
+  fetchCommentsByPost: Function,
+  addComment: Function,
+  editComment: Function,
+  deleteComment: Function,
+  voteUpComment: Function,
+  voteDownComment: Function,
+  selectedSort: SortList,
+  sortComments: Function,
+};
+
+class PostDetailContainer extends React.Component<Props> {
   componentDidMount() {
     const postId = this.props.match.params.id;
     this.props.fetchPost(postId);
     this.props.fetchCommentsByPost(postId);
   }
 
+  props: Props;
+
   render() {
     return (
       <div>
-        <Post post={this.props.post} onDelete={this.props.deletePost} />
+        <PostDetail post={this.props.post} onDelete={this.props.deletePost} />
         <Divider />
-        <Typography type="display1" gutterBottom>
-          Comments
-        </Typography>
+        <div className="post-detail-comment-list">
+          <Typography type="display1" gutterBottom>
+            Comments
+          </Typography>
 
-        <SortSelect
-          sort={this.props.selectedSort}
-          onSortChange={this.props.sortComments}
-        />
-        <CommentList
-          comments={this.props.comments}
-          onEditComment={this.props.editComment}
-          onDeleteComment={this.props.deleteComment}
-          onVoteUpComment={this.props.voteUpComment}
-          onVoteDownComment={this.props.voteDownComment}
-        />
+          <SortSelect
+            sort={this.props.selectedSort}
+            onSortChange={this.props.sortComments}
+          />
+          <CommentList
+            comments={this.props.comments}
+            onEditComment={this.props.editComment}
+            onDeleteComment={this.props.deleteComment}
+            onVoteUpComment={this.props.voteUpComment}
+            onVoteDownComment={this.props.voteDownComment}
+          />
+        </div>
         <Divider />
-        <div className="post-comment-form">
+        <div className="post-detail-comment-form">
           <Typography type="display1" gutterBottom>
             Add Comment
           </Typography>
@@ -59,31 +78,6 @@ class PostDetail extends Component {
     );
   }
 }
-
-PostDetail.propTypes = {
-  post: PropTypes.shape({
-    id: PropTypes.string,
-    title: PropTypes.string,
-    body: PropTypes.string,
-    timestamp: PropTypes.number,
-    voteScore: PropTypes.number,
-    author: PropTypes.string,
-    category: PropTypes.string,
-  }).isRequired,
-  fetchPost: PropTypes.func.isRequired,
-  deletePost: PropTypes.func.isRequired,
-  fetchCommentsByPost: PropTypes.func.isRequired,
-  addComment: PropTypes.func.isRequired,
-  editComment: PropTypes.func.isRequired,
-  deleteComment: PropTypes.func.isRequired,
-  voteUpComment: PropTypes.func.isRequired,
-  voteDownComment: PropTypes.func.isRequired,
-  selectedSort: PropTypes.shape({
-    by: PropTypes.string.isRequired,
-    order: PropTypes.string.isRequired,
-  }).isRequired,
-  sortComments: PropTypes.func.isRequired,
-};
 
 const mapStateToProps = ({ post, comment }) => ({
   post: post.selectedPost,
@@ -104,4 +98,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch(sortComments(sortBy, sortOrder)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  PostDetailContainer
+);

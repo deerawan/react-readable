@@ -14,3 +14,16 @@ export type Category = {
   name: string,
   path: string,
 };
+
+export type Comment = {
+  id: string,
+  body: string,
+  author: string,
+  timestamp: number,
+  parentId: number,
+};
+
+export type SortList = {
+  by: string,
+  order: string,
+};

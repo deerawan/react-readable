@@ -1,18 +1,27 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
-import AccountCircleIcon from 'material-ui-icons/AccountCircle';
-import { friendlyWords } from '../util/date';
 import VoteUpDown from './VoteUpDown';
 import CommentForm from './CommentForm';
 import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
+import CommentMeta from './CommentMeta';
 import './CommentListItem.css';
+import type { Comment } from '../util/definition';
 
-class CommentListItem extends Component {
+type Props = {
+  comment: Comment,
+  onEditComment: Function,
+  onDeleteComment: Function,
+  onVoteUpComment: Function,
+  onVoteDownComment: Function,
+};
+
+class CommentListItem extends React.Component<Props> {
   state = {
     isFormOpen: false,
   };
+  props: Props;
   handleClickEdit = () => {
     this.setState({ isFormOpen: true });
   };
@@ -23,22 +32,14 @@ class CommentListItem extends Component {
   render() {
     const { comment, onVoteUpComment, onVoteDownComment } = this.props;
     return (
-      <Paper className="comment-container">
+      <Paper className="list-item-container">
         <VoteUpDown
           score={comment.voteScore}
           onVoteUp={onVoteUpComment}
           onVoteDown={onVoteDownComment}
         />
-        <div className="comment-content">
-          <div className="comment-meta">
-            <span className="comment-author meta-item">
-              <AccountCircleIcon className="meta-icon" />
-              <span className="author">{comment.author}</span>
-            </span>
-            <span className="comment-date meta-item">
-              {friendlyWords(new Date(comment.timestamp))}
-            </span>
-          </div>
+        <div className="list-item-content">
+          <CommentMeta comment={comment} />
 
           <div className="comment-body">
             {this.state.isFormOpen ? (
@@ -51,7 +52,7 @@ class CommentListItem extends Component {
             )}
           </div>
         </div>
-        <div className="comment-actions">
+        <div className="list-item-actions">
           <EditButton onClick={this.handleClickEdit} />
           <DeleteButton
             onClick={() => this.props.onDeleteComment(comment.id)}
@@ -61,19 +62,5 @@ class CommentListItem extends Component {
     );
   }
 }
-
-CommentListItem.propTypes = {
-  comment: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    body: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired,
-    timestamp: PropTypes.number.isRequired,
-    parentId: PropTypes.string.isRequired,
-  }).isRequired,
-  onEditComment: PropTypes.func.isRequired,
-  onDeleteComment: PropTypes.func.isRequired,
-  onVoteUpComment: PropTypes.func.isRequired,
-  onVoteDownComment: PropTypes.func.isRequired,
-};
 
 export default CommentListItem;
