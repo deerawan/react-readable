@@ -9,10 +9,14 @@ import {
   addComment,
   editComment,
   deleteComment,
+  voteUpComment,
+  voteDownComment,
+  sortComments,
 } from '../actions/comment';
 import CommentForm from '../components/CommentForm';
 import CommentList from '../components/CommentList';
 import Post from '../components/Post';
+import SortSelect from '../components/SortSelect';
 
 class PostDetail extends Component {
   componentDidMount() {
@@ -30,10 +34,16 @@ class PostDetail extends Component {
           Comments
         </Typography>
 
+        <SortSelect
+          sort={this.props.selectedSort}
+          onSortChange={this.props.sortComments}
+        />
         <CommentList
           comments={this.props.comments}
           onEditComment={this.props.editComment}
           onDeleteComment={this.props.deleteComment}
+          onVoteUpComment={this.props.voteUpComment}
+          onVoteDownComment={this.props.voteDownComment}
         />
         <Divider />
         <div className="post-comment-form">
@@ -66,11 +76,19 @@ PostDetail.propTypes = {
   addComment: PropTypes.func.isRequired,
   editComment: PropTypes.func.isRequired,
   deleteComment: PropTypes.func.isRequired,
+  voteUpComment: PropTypes.func.isRequired,
+  voteDownComment: PropTypes.func.isRequired,
+  selectedSort: PropTypes.shape({
+    by: PropTypes.string.isRequired,
+    order: PropTypes.string.isRequired,
+  }).isRequired,
+  sortComments: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ post, comment }) => ({
   post: post.selectedPost,
   comments: comment.comments,
+  selectedSort: comment.selectedSort,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -80,6 +98,10 @@ const mapDispatchToProps = dispatch => ({
   addComment: comment => dispatch(addComment(comment)),
   editComment: comment => dispatch(editComment(comment)),
   deleteComment: id => dispatch(deleteComment(id)),
+  voteUpComment: id => dispatch(voteUpComment(id)),
+  voteDownComment: id => dispatch(voteDownComment(id)),
+  sortComments: (sortBy, sortOrder) =>
+    dispatch(sortComments(sortBy, sortOrder)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostDetail);

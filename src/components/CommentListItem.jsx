@@ -21,10 +21,14 @@ class CommentListItem extends Component {
     this.setState({ isFormOpen: false });
   };
   render() {
-    const { comment } = this.props;
+    const { comment, onVoteUpComment, onVoteDownComment } = this.props;
     return (
       <Paper className="comment-container">
-        <VoteUpDown score={comment.voteScore} />
+        <VoteUpDown
+          score={comment.voteScore}
+          onVoteUp={onVoteUpComment}
+          onVoteDown={onVoteDownComment}
+        />
         <div className="comment-content">
           <div className="comment-meta">
             <span className="comment-author meta-item">
@@ -68,6 +72,8 @@ CommentListItem.propTypes = {
   }).isRequired,
   onEditComment: PropTypes.func.isRequired,
   onDeleteComment: PropTypes.func.isRequired,
+  onVoteUpComment: PropTypes.func.isRequired,
+  onVoteDownComment: PropTypes.func.isRequired,
 };
 
 export default CommentListItem;

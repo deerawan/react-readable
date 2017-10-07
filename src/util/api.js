@@ -89,3 +89,9 @@ export function editComment(comment) {
 export function deleteComment(id) {
   return api.delete(`/comments/${id}`).then(response => response.data);
 }
+
+export function voteComment(id, option) {
+  return api
+    .post(`/comments/${id}`, { option })
+    .then(response => response.data);
+}

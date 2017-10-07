@@ -9,6 +9,8 @@ const CommentList = props => (
         comment={comment}
         onEditComment={props.onEditComment}
         onDeleteComment={props.onDeleteComment}
+        onVoteUpComment={() => props.onVoteUpComment(comment.id)}
+        onVoteDownComment={() => props.onVoteDownComment(comment.id)}
       />
     ))}
   </div>
@@ -26,6 +28,8 @@ CommentList.propTypes = {
   ).isRequired,
   onEditComment: PropTypes.func.isRequired,
   onDeleteComment: PropTypes.func.isRequired,
+  onVoteUpComment: PropTypes.func.isRequired,
+  onVoteDownComment: PropTypes.func.isRequired,
 };
 
 export default CommentList;
