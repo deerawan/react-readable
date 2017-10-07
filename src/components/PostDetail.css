@@ -1,4 +1,5 @@
 .post-detail-container {
+  position: relative;
   padding-bottom: 30px;
 }
 
@@ -9,4 +10,9 @@
 .post-detail-comment-list,
 .post-detail-comment-form {
   padding: 20px 0;
+}
+
+.post-detail-voting {
+  position: absolute;
+  margin-left: -60px;
 }

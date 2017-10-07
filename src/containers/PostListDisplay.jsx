@@ -11,8 +11,20 @@ import {
 } from '../actions/post';
 import PostList from '../components/PostList';
 import SortSelect from '../components/SortSelect';
+import type { Post, SortList } from '../util/definition';
 
-class PostListDisplay extends Component {
+type Props = {
+  posts: Post[],
+  selectedSort: SortList,
+  sortPost: Function,
+  deletePost: Function,
+  fetchPosts: Function,
+  voteUpPost: Function,
+  voteDownPost: Function,
+  fetchPostsByCategory: Function,
+};
+
+class PostListDisplay extends Component<Props> {
   componentDidMount() {
     const { category } = this.props.match.params;
 
@@ -23,12 +35,15 @@ class PostListDisplay extends Component {
     return this.props.fetchPosts();
   }
 
+  props: Props;
+
   render() {
     return (
       <div>
         <SortSelect
           sort={this.props.selectedSort}
           onSortChange={this.props.sortPost}
+          visible={this.props.posts.length > 0}
         />
         <PostList
           posts={this.props.posts}
@@ -40,29 +55,6 @@ class PostListDisplay extends Component {
     );
   }
 }
-
-PostListDisplay.propTypes = {
-  posts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      author: PropTypes.string,
-      title: PropTypes.string,
-      body: PropTypes.string,
-      timestamp: PropTypes.number,
-      category: PropTypes.string,
-    })
-  ).isRequired,
-  sortPost: PropTypes.func.isRequired,
-  deletePost: PropTypes.func.isRequired,
-  fetchPosts: PropTypes.func.isRequired,
-  voteUpPost: PropTypes.func.isRequired,
-  voteDownPost: PropTypes.func.isRequired,
-  fetchPostsByCategory: PropTypes.func.isRequired,
-  selectedSort: PropTypes.shape({
-    by: PropTypes.string.isRequired,
-    order: PropTypes.string.isRequired,
-  }).isRequired,
-};
 
 const mapStateToProps = ({ post }) => ({
   posts: post.posts,

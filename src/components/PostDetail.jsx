@@ -1,17 +1,32 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import Typography from 'material-ui/Typography';
 import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
 import PostMeta from './PostMeta';
+import VoteUpDown from '../components/VoteUpDown';
+import type { Post } from '../util/definition';
 import './PostDetail.css';
 
-const Post = props => {
-  const { id, title, body } = props.post;
+type Props = {
+  post: Post,
+  onVoteUp: Function,
+  onVoteDown: Function,
+  onDelete: Function,
+};
+
+const PostDetail = (props: Props) => {
+  const { id, title, body, voteScore } = props.post;
   return (
     <div>
       <div className="post-detail-container">
+        <div className="post-detail-voting">
+          <VoteUpDown
+            score={voteScore}
+            onVoteUp={() => props.onVoteUp(id)}
+            onVoteDown={() => props.onVoteDown(id)}
+          />
+        </div>
         <Typography type="display2" gutterBottom>
           {title}
         </Typography>
@@ -34,16 +49,4 @@ const Post = props => {
   );
 };
 
-Post.propTypes = {
-  post: PropTypes.shape({
-    title: PropTypes.string,
-    body: PropTypes.string,
-    timestamp: PropTypes.number,
-    voteScore: PropTypes.number,
-    author: PropTypes.string,
-    category: PropTypes.string,
-  }).isRequired,
-  onDelete: PropTypes.func.isRequired,
-};
-
-export default Post;
+export default PostDetail;

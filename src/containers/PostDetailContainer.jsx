@@ -2,7 +2,12 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
-import { fetchPost, deletePost } from '../actions/post';
+import {
+  fetchPost,
+  deletePost,
+  voteUpPost,
+  voteDownPost,
+} from '../actions/post';
 import {
   fetchCommentsByPost,
   addComment,
@@ -23,6 +28,8 @@ type Props = {
   comments: Comment[],
   fetchPost: Function,
   deletePost: Function,
+  voteUpPost: Function,
+  voteDownPost: Function,
   fetchCommentsByPost: Function,
   addComment: Function,
   editComment: Function,
@@ -45,7 +52,12 @@ class PostDetailContainer extends React.Component<Props> {
   render() {
     return (
       <div>
-        <PostDetail post={this.props.post} onDelete={this.props.deletePost} />
+        <PostDetail
+          post={this.props.post}
+          onVoteUp={this.props.voteUpPost}
+          onVoteDown={this.props.voteDownPost}
+          onDelete={this.props.deletePost}
+        />
         <Divider />
         <div className="post-detail-comment-list">
           <Typography type="display1" gutterBottom>
@@ -55,6 +67,7 @@ class PostDetailContainer extends React.Component<Props> {
           <SortSelect
             sort={this.props.selectedSort}
             onSortChange={this.props.sortComments}
+            visible={this.props.comments.length > 0}
           />
           <CommentList
             comments={this.props.comments}
@@ -89,6 +102,8 @@ const mapDispatchToProps = dispatch => ({
   fetchPost: id => dispatch(fetchPost(id)),
   fetchCommentsByPost: id => dispatch(fetchCommentsByPost(id)),
   deletePost: id => dispatch(deletePost(id)),
+  voteUpPost: id => dispatch(voteUpPost(id)),
+  voteDownPost: id => dispatch(voteDownPost(id)),
   addComment: comment => dispatch(addComment(comment)),
   editComment: comment => dispatch(editComment(comment)),
   deleteComment: id => dispatch(deleteComment(id)),

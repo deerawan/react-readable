@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import Select from 'material-ui/Select';
 import { MenuItem } from 'material-ui/Menu';
 import Input from 'material-ui/Input';
@@ -8,8 +7,15 @@ import IconButton from 'material-ui/IconButton';
 import ArrowUpwardIcon from 'material-ui-icons/ArrowUpward';
 import ArrowDownwardIcon from 'material-ui-icons/ArrowDownward';
 import { SORT_ORDER } from '../constant';
+import type { SortList } from '../util/definition';
 
-class SortSelect extends Component {
+type Props = {
+  sort: SortList,
+  onSortChange: Function,
+  visible: boolean,
+};
+
+class SortSelect extends Component<Props> {
   state = {
     sortBy: '',
     sortOrder: '',
@@ -22,6 +28,8 @@ class SortSelect extends Component {
       sortOrder: order,
     });
   }
+
+  props: Props;
 
   handleSortByChange = sortBy => {
     this.setState({
@@ -38,18 +46,32 @@ class SortSelect extends Component {
   };
 
   render() {
-    return (
+    return this.props.visible ? (
       <div className="sort-select-container">
         <span className="sort-order">
           {this.state.sortOrder === SORT_ORDER.asc ? (
-            <Tooltip id="tooltip-sort-desc-icon" title="Sort asc" placement="bottom">
-              <IconButton aria-label="Sort asc" onClick={() => this.handleSortOrderChange(SORT_ORDER.desc)}>
+            <Tooltip
+              id="tooltip-sort-desc-icon"
+              title="Sort asc"
+              placement="bottom"
+            >
+              <IconButton
+                aria-label="Sort asc"
+                onClick={() => this.handleSortOrderChange(SORT_ORDER.desc)}
+              >
                 <ArrowUpwardIcon />
               </IconButton>
             </Tooltip>
           ) : (
-            <Tooltip id="tooltip-sort-desc-icon" title="Sort desc" placement="bottom">
-              <IconButton aria-label="Sort desc" onClick={() => this.handleSortOrderChange(SORT_ORDER.asc)}>
+            <Tooltip
+              id="tooltip-sort-desc-icon"
+              title="Sort desc"
+              placement="bottom"
+            >
+              <IconButton
+                aria-label="Sort desc"
+                onClick={() => this.handleSortOrderChange(SORT_ORDER.asc)}
+              >
                 <ArrowDownwardIcon />
               </IconButton>
             </Tooltip>
@@ -66,16 +88,10 @@ class SortSelect extends Component {
           </Select>
         </span>
       </div>
+    ) : (
+      <div />
     );
   }
 }
-
-SortSelect.propTypes = {
-  onSortChange: PropTypes.func.isRequired,
-  sort: PropTypes.shape({
-    by: PropTypes.string.isRequired,
-    order: PropTypes.string.isRequired,
-  }).isRequired,
-};
 
 export default SortSelect;

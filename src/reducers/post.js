@@ -23,6 +23,7 @@ const initialState = {
     body: '',
     author: '',
     category: '',
+    voteScore: 0,
     commentsCount: 0,
   },
 };
@@ -93,7 +94,7 @@ function postReducer(state = initialState, action) {
     case VOTE_UP_POST_SUCCESS:
     case VOTE_DOWN_POST_SUCCESS: {
       const { post: postWithNewVote } = action;
-      const { posts, selectedSort: { by, order } } = state;
+      const { posts, selectedPost, selectedSort: { by, order } } = state;
       const oldPostIndex = posts.findIndex(p => p.id === postWithNewVote.id);
       const updatedPosts = [
         ...posts.slice(0, oldPostIndex),
@@ -101,9 +102,19 @@ function postReducer(state = initialState, action) {
         ...posts.slice(oldPostIndex + 1, posts.length),
       ];
 
+      // NOTE: make sure selected post is same with updated post
+      const updatedSelectedPost =
+        selectedPost.id === postWithNewVote.id
+          ? {
+              ...selectedPost,
+              voteScore: postWithNewVote.voteScore,
+            }
+          : selectedPost;
+
       return {
         ...state,
         posts: sortPosts(updatedPosts, by, order),
+        selectedPost: updatedSelectedPost,
       };
     }
     default:

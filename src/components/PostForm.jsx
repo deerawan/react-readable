@@ -40,7 +40,6 @@ class PostForm extends Component<Props> {
     }
   }
 
-  // TODO: change with componentWillMount
   componentWillReceiveProps(nextProps) {
     const { post: { id } } = nextProps;
     if (id) {
@@ -123,7 +122,7 @@ class PostForm extends Component<Props> {
     return (
       <div className="add-post-container">
         <Typography type="display2" gutterBottom>
-          Add Post
+          {this.state.isEditing ? 'Update Post' : 'Add Post'}
         </Typography>
         <Paper className="post-form-container">
           <form className="post-form">
