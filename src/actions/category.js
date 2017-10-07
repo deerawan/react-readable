@@ -1,16 +1,26 @@
 import * as api from '../util/api';
 
-export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
+export const FETCH_CATEGORIES_REQUEST = 'FETCH_CATEGORIES_REQUEST';
+export const FETCH_CATEGORIES_SUCCESS = 'FETCH_CATEGORIES_SUCCESS';
 
-export function receiveCategories(categories) {
+export function fetchCategoriesRequest() {
   return {
-    type: RECEIVE_CATEGORIES,
+    type: FETCH_CATEGORIES_REQUEST,
+  };
+}
+
+export function fetchCategoriesSuccess(categories) {
+  return {
+    type: FETCH_CATEGORIES_SUCCESS,
     categories,
   };
 }
 
 export function fetchCategories() {
-  return dispatch => api.fetchCategories().then(response => {
-      dispatch(receiveCategories(response));
+  return dispatch => {
+    dispatch(fetchCategoriesRequest());
+    api.fetchCategories().then(response => {
+      dispatch(fetchCategoriesSuccess(response));
     });
+  };
 }

@@ -15,7 +15,8 @@
   width: 40%;
 }
 
-.submit-btn {
+.post-form-container .submit-btn {
   margin-top: 20px;
   flex: 0 0 88px;
+  min-width: 100px;
 }

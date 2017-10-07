@@ -17,6 +17,7 @@ const PostList = (props: Props) => {
       {posts.length > 0 ? (
         posts.map(post => (
           <PostListItem
+            key={post.id}
             post={post}
             onVoteUp={props.onVoteUp}
             onVoteDown={props.onVoteDown}

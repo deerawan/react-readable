@@ -8,9 +8,11 @@ import { fetchPostsByCategory } from '../actions/post';
 import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import CategoryList from '../components/CategoryList';
 import type { Category } from '../util/definition';
+import Spinner from '../components/Spinner';
 
 type Props = {
   categories: Category[],
+  categoryLoading: boolean,
   fetchCategories: Function,
   fetchPostByCategory: Function,
 };
@@ -34,17 +36,22 @@ class Sidebar extends Component<Props> {
           </ListItem>
         </Link>
         <Divider />
-        <CategoryList
-          categories={this.props.categories}
-          onCategoryClick={this.props.fetchPostByCategory}
-        />
+        {this.props.categoryLoading ? (
+          <Spinner />
+        ) : (
+          <CategoryList
+            categories={this.props.categories}
+            onCategoryClick={this.props.fetchPostByCategory}
+          />
+        )}
       </div>
     );
   }
 }
 
 const mapStateToProps = ({ category }) => ({
-  categories: category,
+  categoryLoading: category.loading,
+  categories: category.categories,
 });
 
 const mapDispatchToProps = dispatch => ({

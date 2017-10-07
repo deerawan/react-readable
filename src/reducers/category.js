@@ -1,10 +1,28 @@
-import { RECEIVE_CATEGORIES } from '../actions/category';
+import {
+  FETCH_CATEGORIES_REQUEST,
+  FETCH_CATEGORIES_SUCCESS,
+} from '../actions/category';
 
-function category(state = [], action) {
+const initialState = {
+  loading: false,
+  categories: [],
+};
+
+function category(state = initialState, action) {
   switch (action.type) {
-    case RECEIVE_CATEGORIES: {
+    case FETCH_CATEGORIES_REQUEST: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case FETCH_CATEGORIES_SUCCESS: {
       const { categories } = action;
-      return categories;
+      return {
+        ...state,
+        loading: false,
+        categories,
+      };
     }
     default:
       return state;

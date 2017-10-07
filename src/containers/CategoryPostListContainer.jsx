@@ -9,10 +9,12 @@ import {
 } from '../actions/post';
 import PostList from '../components/PostList';
 import SortSelect from '../components/SortSelect';
+import Spinner from '../components/Spinner';
 import type { Post, SortList } from '../util/definition';
 
 type Props = {
   posts: Post[],
+  postLoading: boolean,
   selectedSort: SortList,
   sortPost: Function,
   deletePost: Function,
@@ -30,7 +32,9 @@ class CategoryPostListContainer extends Component<Props> {
   props: Props;
 
   render() {
-    return (
+    return this.props.postLoading ? (
+      <Spinner />
+    ) : (
       <div>
         <SortSelect
           sort={this.props.selectedSort}
@@ -50,6 +54,7 @@ class CategoryPostListContainer extends Component<Props> {
 
 const mapStateToProps = ({ post }) => ({
   posts: post.posts,
+  postLoading: post.loading,
   selectedSort: post.selectedSort,
 });
 

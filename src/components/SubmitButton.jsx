@@ -1,10 +1,12 @@
 import React from 'react';
 import Button from 'material-ui/Button';
 import SaveIcon from 'material-ui-icons/Save';
+import { CircularProgress } from 'material-ui/Progress';
 
 type Props = {
   disabled: boolean,
   isEditing: boolean,
+  loading: boolean,
   onClick: Function,
 };
 
@@ -16,7 +18,12 @@ const SubmitButton = (props: Props) => (
     onClick={props.onClick}
     className="submit-btn"
   >
-    <SaveIcon className="icon-button" /> {props.isEditing ? 'Update' : 'Add'}
+    {props.loading ? (
+      <CircularProgress size={15} className="icon-button spinner-icon" />
+    ) : (
+      <SaveIcon className="icon-button" />
+    )}
+    {props.isEditing ? 'Update' : 'Add'}
   </Button>
 );
 

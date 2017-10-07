@@ -12,6 +12,7 @@ import type { Post, Category } from '../util/definition';
 
 type Props = {
   post: Post,
+  postLoading: boolean,
   categories: Category[],
   addPost: Function,
   editPost: Function,
@@ -189,6 +190,7 @@ class PostForm extends Component<Props> {
             <div className="form-group">
               <SubmitButton
                 disabled={!valid}
+                loading={this.props.postLoading}
                 onClick={
                   this.state.isEditing ? this.handleEdit : this.handleCreate
                 }

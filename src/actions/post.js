@@ -2,17 +2,29 @@ import { push } from 'react-router-redux';
 import * as api from '../util/api';
 import * as link from '../util/link';
 
+export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
 export const ADD_POST_FAILED = 'ADD_POST_FAILED';
+export const EDIT_POST_REQUEST = 'EDIT_POST_REQUEST';
 export const EDIT_POST_SUCCESS = 'EDIT_POST_SUCCESS';
-export const RECEIVE_POSTS = 'RECEIVE_POSTS';
-export const RECEIVE_POST_SUCCESS = 'RECEIVE_POST_SUCCESS';
-export const RECEIVE_POSTS_BY_CATEGORY_SUCCESS =
-  'RECEIVE_POSTS_BY_CATEGORY_SUCCESS';
+export const FETCH_POSTS_REQUEST = 'FETCH_POSTS_REQUEST';
+export const FETCH_POSTS_SUCCESS = 'FETCH_POSTS_SUCCESS';
+export const FETCH_POST_REQUEST = 'FETCH_POST_REQUEST';
+export const FETCH_POST_SUCCESS = 'FETCH_POST_SUCCESS';
+export const FETCH_POSTS_BY_CATEGORY_REQUEST =
+  'FETCH_POSTS_BY_CATEGORY_REQUEST';
+export const FETCH_POSTS_BY_CATEGORY_SUCCESS =
+  'FETCH_POSTS_BY_CATEGORY_SUCCESS';
 export const SORT_POST = 'SORT_POST';
 export const DELETE_POST_SUCCESS = 'DELETE_POST_SUCCESS';
 export const VOTE_UP_POST_SUCCESS = 'VOTE_UP_POST_SUCCESS';
 export const VOTE_DOWN_POST_SUCCESS = 'VOTE_DOWN_POST_SUCCESS';
+
+export function addPostRequest() {
+  return {
+    type: ADD_POST_REQUEST,
+  };
+}
 
 export function addPostSuccess(post) {
   return {
@@ -27,6 +39,12 @@ export function addPostFailed() {
   };
 }
 
+export function editPostRequest() {
+  return {
+    type: EDIT_POST_REQUEST,
+  };
+}
+
 export function editPostSuccess(post) {
   return {
     type: EDIT_POST_SUCCESS,
@@ -34,16 +52,28 @@ export function editPostSuccess(post) {
   };
 }
 
-export function receivePosts(posts) {
+export function fetchPostsRequest() {
   return {
-    type: RECEIVE_POSTS,
+    type: FETCH_POSTS_REQUEST,
+  };
+}
+
+export function fetchPostsSuccess(posts) {
+  return {
+    type: FETCH_POSTS_SUCCESS,
     posts,
   };
 }
 
-export function receivePostSuccess(post) {
+export function fetchPostRequest() {
   return {
-    type: RECEIVE_POST_SUCCESS,
+    type: FETCH_POST_REQUEST,
+  };
+}
+
+export function fetchPostSuccess(post) {
+  return {
+    type: FETCH_POST_SUCCESS,
     post,
   };
 }
@@ -77,34 +107,47 @@ export function voteDownPostSuccess(post) {
   };
 }
 
-export function receivePostsByCategorySuccess(posts) {
+export function fetchPostByCategoryRequest() {
   return {
-    type: RECEIVE_POSTS_BY_CATEGORY_SUCCESS,
+    type: FETCH_POSTS_BY_CATEGORY_REQUEST,
+  };
+}
+
+export function fetchPostsByCategorySuccess(posts) {
+  return {
+    type: FETCH_POSTS_BY_CATEGORY_SUCCESS,
     posts,
   };
 }
 
 export function fetchPosts() {
-  return dispatch =>
+  return dispatch => {
+    dispatch(fetchPostsRequest());
     api.fetchPosts().then(response => {
-      dispatch(receivePosts(response));
+      dispatch(fetchPostsSuccess(response));
     });
+  };
 }
 
 export function fetchPost(id) {
-  return dispatch =>
-    api.fetchPost(id).then(post => dispatch(receivePostSuccess(post)));
+  return dispatch => {
+    dispatch(fetchPostRequest());
+    api.fetchPost(id).then(post => dispatch(fetchPostSuccess(post)));
+  };
 }
 
 export function fetchPostsByCategory(category) {
-  return dispatch =>
+  return dispatch => {
+    dispatch(fetchPostByCategoryRequest());
     api
       .fetchPostsByCategory(category)
-      .then(posts => dispatch(receivePostsByCategorySuccess(posts)));
+      .then(posts => dispatch(fetchPostsByCategorySuccess(posts)));
+  };
 }
 
 export function addPost(post) {
-  return dispatch =>
+  return dispatch => {
+    dispatch(addPostRequest());
     api
       .addPost(post)
       .then(newPost => {
@@ -112,14 +155,17 @@ export function addPost(post) {
         dispatch(push(link.postDetail(newPost)));
       })
       .catch(error => dispatch(addPostFailed()));
+  };
 }
 
 export function editPost(post) {
-  return dispatch =>
+  return dispatch => {
+    dispatch(editPostRequest());
     api.editPost(post).then(updatedPost => {
       dispatch(editPostSuccess(updatedPost));
       dispatch(push(link.postDetail(updatedPost)));
     });
+  };
 }
 
 export function deletePost(id) {

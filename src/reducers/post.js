@@ -1,17 +1,23 @@
 import * as _ from 'lodash';
 import {
+  ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
   DELETE_POST_SUCCESS,
+  EDIT_POST_REQUEST,
   EDIT_POST_SUCCESS,
-  RECEIVE_POSTS,
-  RECEIVE_POST_SUCCESS,
+  FETCH_POSTS_REQUEST,
+  FETCH_POSTS_SUCCESS,
+  FETCH_POST_REQUEST,
+  FETCH_POST_SUCCESS,
   VOTE_UP_POST_SUCCESS,
   VOTE_DOWN_POST_SUCCESS,
   SORT_POST,
-  RECEIVE_POSTS_BY_CATEGORY_SUCCESS,
+  FETCH_POSTS_BY_CATEGORY_REQUEST,
+  FETCH_POSTS_BY_CATEGORY_SUCCESS,
 } from '../actions/post';
 
 const initialState = {
+  loading: false,
   posts: [],
   selectedSort: {
     by: 'voteScore',
@@ -30,10 +36,23 @@ const initialState = {
 
 function postReducer(state = initialState, action) {
   switch (action.type) {
+    case ADD_POST_REQUEST: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
     case ADD_POST_SUCCESS: {
       return {
         ...state,
+        loading: false,
         posts: state.posts.concat(action.post),
+      };
+    }
+    case EDIT_POST_REQUEST: {
+      return {
+        ...state,
+        loading: true,
       };
     }
     case EDIT_POST_SUCCESS: {
@@ -54,25 +73,47 @@ function postReducer(state = initialState, action) {
       const { post: deletedPost } = action;
       return {
         ...state,
+        loading: false,
         posts: state.posts.filter(post => post.id !== deletedPost.id),
       };
     }
-    case RECEIVE_POSTS: {
+    case FETCH_POSTS_REQUEST: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case FETCH_POSTS_SUCCESS: {
       const { selectedSort: { by, order } } = state;
       return {
         ...state,
+        loading: false,
         posts: sortPosts(action.posts, by, order),
       };
     }
-    case RECEIVE_POST_SUCCESS: {
+    case FETCH_POST_REQUEST: {
       return {
         ...state,
+        loading: true,
+      };
+    }
+    case FETCH_POST_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
         selectedPost: action.post,
       };
     }
-    case RECEIVE_POSTS_BY_CATEGORY_SUCCESS: {
+    case FETCH_POSTS_BY_CATEGORY_REQUEST: {
       return {
         ...state,
+        loading: true,
+      };
+    }
+    case FETCH_POSTS_BY_CATEGORY_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
         posts: action.posts,
       };
     }

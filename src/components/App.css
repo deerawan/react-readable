@@ -18,11 +18,16 @@
   margin-bottom: 10px;
 }
 
+/** BUTTON */
 button .icon-button {
   width: 15px;
   height: 15px;
   margin-right: 4px;
 }
+button .spinner-icon {
+  color: #fff;
+}
+
 
 .link-button {
   text-decoration: none

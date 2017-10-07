@@ -21,10 +21,12 @@ import CommentForm from '../components/CommentForm';
 import CommentList from '../components/CommentList';
 import PostDetail from '../components/PostDetail';
 import SortSelect from '../components/SortSelect';
+import Spinner from '../components/Spinner';
 import type { Post, Comment, SortList } from '../util/definition';
 
 type Props = {
   post: Post,
+  postLoading: boolean,
   comments: Comment[],
   fetchPost: Function,
   deletePost: Function,
@@ -50,6 +52,9 @@ class PostDetailContainer extends React.Component<Props> {
   props: Props;
 
   render() {
+    if (this.props.postLoading) {
+      return <Spinner />;
+    }
     return this.props.post.id ? (
       <div>
         <PostDetail
@@ -96,6 +101,7 @@ class PostDetailContainer extends React.Component<Props> {
 
 const mapStateToProps = ({ post, comment }) => ({
   post: post.selectedPost,
+  postLoading: post.loading,
   comments: comment.comments,
   selectedSort: comment.selectedSort,
 });

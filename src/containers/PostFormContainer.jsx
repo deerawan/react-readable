@@ -3,8 +3,9 @@ import { addPost, fetchPost, editPost } from '../actions/post';
 import PostForm from '../components/PostForm';
 
 const mapStateToProps = ({ post, category }) => ({
-  categories: category,
+  categories: category.categories,
   post: post.selectedPost,
+  postLoading: post.loading,
 });
 
 const mapDispatchToProps = dispatch => ({

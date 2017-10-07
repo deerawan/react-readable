@@ -16,6 +16,7 @@ const CommentList = (props: Props) => (
     {props.comments.length > 0 ? (
       props.comments.map(comment => (
         <CommentListItem
+          key={comment.id}
           comment={comment}
           onEditComment={props.onEditComment}
           onDeleteComment={props.onDeleteComment}
@@ -24,7 +25,7 @@ const CommentList = (props: Props) => (
         />
       ))
     ) : (
-      <Typography type="headline">No comments to display</Typography>
+      <Typography type="paragraph">No comments to display</Typography>
     )}
   </div>
 );
