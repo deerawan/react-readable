@@ -16,7 +16,7 @@ const SubmitButton = (props: Props) => (
     onClick={props.onClick}
     className="submit-btn"
   >
-    <SaveIcon className="icon-button" /> {props.isEditing ? 'Update' : 'Create'}
+    <SaveIcon className="icon-button" /> {props.isEditing ? 'Update' : 'Add'}
   </Button>
 );
 

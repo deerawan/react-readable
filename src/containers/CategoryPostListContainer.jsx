@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  fetchPosts,
   sortPost,
   deletePost,
   voteUpPost,
@@ -18,21 +16,15 @@ type Props = {
   selectedSort: SortList,
   sortPost: Function,
   deletePost: Function,
-  fetchPosts: Function,
   voteUpPost: Function,
   voteDownPost: Function,
   fetchPostsByCategory: Function,
 };
 
-class PostListDisplay extends Component<Props> {
+class CategoryPostListContainer extends Component<Props> {
   componentDidMount() {
     const { category } = this.props.match.params;
-
-    if (category) {
-      return this.props.fetchPostsByCategory(category);
-    }
-
-    return this.props.fetchPosts();
+    this.props.fetchPostsByCategory(category);
   }
 
   props: Props;
@@ -62,7 +54,6 @@ const mapStateToProps = ({ post }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchPosts: () => dispatch(fetchPosts()),
   fetchPostsByCategory: category => dispatch(fetchPostsByCategory(category)),
   sortPost: (sortBy, sortOrder) => dispatch(sortPost(sortBy, sortOrder)),
   deletePost: id => dispatch(deletePost(id)),
@@ -70,4 +61,6 @@ const mapDispatchToProps = dispatch => ({
   voteDownPost: id => dispatch(voteDownPost(id)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostListDisplay);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  CategoryPostListContainer
+);

@@ -1,34 +1,47 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import HomeIcon from 'material-ui-icons/Home';
+import Divider from 'material-ui/Divider';
+import { Link } from 'react-router-dom';
 import { fetchCategories } from '../actions/category';
 import { fetchPostsByCategory } from '../actions/post';
+import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import CategoryList from '../components/CategoryList';
+import type { Category } from '../util/definition';
 
-class Sidebar extends Component {
+type Props = {
+  categories: Category[],
+  fetchCategories: Function,
+  fetchPostByCategory: Function,
+};
+
+class Sidebar extends Component<Props> {
   componentDidMount() {
     this.props.fetchCategories();
   }
 
+  props: Props;
+
   render() {
     return (
       <div>
-        <CategoryList categories={this.props.categories} onCategoryClick={this.props.fetchPostByCategory} />
+        <Link to="/" className="link-button">
+          <ListItem button>
+            <ListItemIcon>
+              <HomeIcon className="color-primary" />
+            </ListItemIcon>
+            <ListItemText primary="Home" />
+          </ListItem>
+        </Link>
+        <Divider />
+        <CategoryList
+          categories={this.props.categories}
+          onCategoryClick={this.props.fetchPostByCategory}
+        />
       </div>
     );
   }
 }
-
-Sidebar.propTypes = {
-  categories: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      path: PropTypes.string,
-    })
-  ).isRequired,
-  fetchCategories: PropTypes.func.isRequired,
-  fetchPostByCategory: PropTypes.func.isRequired,
-};
 
 const mapStateToProps = ({ category }) => ({
   categories: category,

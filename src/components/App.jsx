@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
@@ -9,8 +8,6 @@ import Divider from 'material-ui/Divider';
 import Button from 'material-ui/Button';
 import Tooltip from 'material-ui/Tooltip';
 import AddIcon from 'material-ui-icons/Add';
-import HomeIcon from 'material-ui-icons/Home';
-import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import { Link } from 'react-router-dom';
 import './App.css';
 import Main from '../containers/Main';
@@ -69,7 +66,11 @@ const styles = theme => ({
   },
 });
 
-const App = props => {
+type Props = {
+  classes: any,
+};
+
+const App = (props: Props) => {
   const { classes } = props;
 
   return (
@@ -78,7 +79,7 @@ const App = props => {
         <AppBar className={classes.appBar}>
           <Toolbar>
             <Typography type="title" color="inherit" noWrap>
-              Home
+              READABLE
             </Typography>
           </Toolbar>
         </AppBar>
@@ -88,24 +89,7 @@ const App = props => {
             paper: classes.drawerPaper,
           }}
         >
-          <div className={classes.drawerHeader}>
-            <Typography
-              type="display1"
-              align="center"
-              className={classes.titleHeader}
-            >
-              Readable
-            </Typography>
-          </div>
-          <Divider />
-          <Link to="/" className="link-button">
-            <ListItem button>
-              <ListItemIcon>
-                <HomeIcon />
-              </ListItemIcon>
-              <ListItemText primary="Home" />
-            </ListItem>
-          </Link>
+          <div className={classes.drawerHeader} />
           <Divider />
           <Sidebar className="sidebar" />
         </Drawer>
@@ -124,10 +108,6 @@ const App = props => {
       </div>
     </div>
   );
-};
-
-App.propTypes = {
-  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(App);

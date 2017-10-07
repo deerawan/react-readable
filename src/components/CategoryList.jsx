@@ -1,16 +1,22 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import List, { ListItem, ListItemText } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import FolderIcon from 'material-ui-icons/Folder';
+import type { Category } from '../util/definition';
+import * as link from '../util/link';
 
-const CategoryList = props => (
+type Props = {
+  categories: Category[],
+  onCategoryClick: Function,
+};
+
+const CategoryList = (props: Props) => (
   <List>
     {props.categories.map(category => (
       <Link
         key={category.name}
-        to={`/${category.name}`}
+        to={link.categoryPost(category)}
         onClick={() => props.onCategoryClick(category.name)}
         className="menu-item"
       >
@@ -24,15 +30,5 @@ const CategoryList = props => (
     ))}
   </List>
 );
-
-CategoryList.propTypes = {
-  categories: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      path: PropTypes.string,
-    })
-  ).isRequired,
-  onCategoryClick: PropTypes.func.isRequired,
-};
 
 export default CategoryList;

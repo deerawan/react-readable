@@ -50,7 +50,7 @@ class PostDetailContainer extends React.Component<Props> {
   props: Props;
 
   render() {
-    return (
+    return this.props.post.id ? (
       <div>
         <PostDetail
           post={this.props.post}
@@ -88,6 +88,8 @@ class PostDetailContainer extends React.Component<Props> {
           />
         </div>
       </div>
+    ) : (
+      <Typography type="headline">No post to display</Typography>
     );
   }
 }

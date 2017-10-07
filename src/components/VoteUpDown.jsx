@@ -1,12 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import IconButton from 'material-ui/IconButton';
 import Avatar from 'material-ui/Avatar';
 import ThumbUpIcon from 'material-ui-icons/ThumbUp';
 import ThumbDownIcon from 'material-ui-icons/ThumbDown';
 import './VoteUpDown.css';
 
-const VoteUpDown = props => {
+type Props = {
+  score: number,
+  onVoteUp: Function,
+  onVoteDown: Function,
+};
+
+const VoteUpDown = (props: Props) => {
   const { score } = props;
   return (
     <div className="vote-up-down">
@@ -31,12 +36,6 @@ const VoteUpDown = props => {
       </IconButton>
     </div>
   );
-};
-
-VoteUpDown.propTypes = {
-  score: PropTypes.number.isRequired,
-  onVoteUp: PropTypes.func.isRequired,
-  onVoteDown: PropTypes.func.isRequired,
 };
 
 export default VoteUpDown;
