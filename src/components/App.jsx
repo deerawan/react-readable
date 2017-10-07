@@ -7,6 +7,7 @@ import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
 import Button from 'material-ui/Button';
+import Tooltip from 'material-ui/Tooltip';
 import AddIcon from 'material-ui-icons/Add';
 import HomeIcon from 'material-ui-icons/Home';
 import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
@@ -88,7 +89,11 @@ const App = props => {
           }}
         >
           <div className={classes.drawerHeader}>
-            <Typography type="display1" align="center" className={classes.titleHeader}>
+            <Typography
+              type="display1"
+              align="center"
+              className={classes.titleHeader}
+            >
               Readable
             </Typography>
           </div>
@@ -106,11 +111,15 @@ const App = props => {
         </Drawer>
         <main className={classes.content}>
           <Main />
-          <Link to="/posts/new">
-            <Button fab color="primary" aria-label="add" className={classes.addButton}>
-              <AddIcon />
-            </Button>
-          </Link>
+          <div className={classes.addButton}>
+            <Tooltip placement="left" title="Add post" className="tooltip-lg">
+              <Link to="/posts/new">
+                <Button fab color="primary" aria-label="add">
+                  <AddIcon />
+                </Button>
+              </Link>
+            </Tooltip>
+          </div>
         </main>
       </div>
     </div>

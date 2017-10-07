@@ -1,35 +1,32 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import Typography from 'material-ui/Typography';
 import CommentListItem from './CommentListItem';
+import type { Comment } from '../util/definition';
 
-const CommentList = props => (
+type Props = {
+  comments: Comment[],
+  onEditComment: Function,
+  onDeleteComment: Function,
+  onVoteUpComment: Function,
+  onVoteDownComment: Function,
+};
+
+const CommentList = (props: Props) => (
   <div className="post-comment-list">
-    {props.comments.map(comment => (
-      <CommentListItem
-        comment={comment}
-        onEditComment={props.onEditComment}
-        onDeleteComment={props.onDeleteComment}
-        onVoteUpComment={() => props.onVoteUpComment(comment.id)}
-        onVoteDownComment={() => props.onVoteDownComment(comment.id)}
-      />
-    ))}
+    {props.comments.length > 0 ? (
+      props.comments.map(comment => (
+        <CommentListItem
+          comment={comment}
+          onEditComment={props.onEditComment}
+          onDeleteComment={props.onDeleteComment}
+          onVoteUpComment={() => props.onVoteUpComment(comment.id)}
+          onVoteDownComment={() => props.onVoteDownComment(comment.id)}
+        />
+      ))
+    ) : (
+      <Typography type="headline">No comments to display</Typography>
+    )}
   </div>
 );
-
-CommentList.propTypes = {
-  comments: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      body: PropTypes.string.isRequired,
-      author: PropTypes.string.isRequired,
-      timestamp: PropTypes.number.isRequired,
-      parentId: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-  onEditComment: PropTypes.func.isRequired,
-  onDeleteComment: PropTypes.func.isRequired,
-  onVoteUpComment: PropTypes.func.isRequired,
-  onVoteDownComment: PropTypes.func.isRequired,
-};
 
 export default CommentList;

@@ -25,6 +25,9 @@ class CommentListItem extends React.Component<Props> {
   handleClickEdit = () => {
     this.setState({ isFormOpen: true });
   };
+  handleCancelEdit = () => {
+    this.setState({ isFormOpen: false });
+  };
   handleEditComment = ({ id, body }) => {
     this.props.onEditComment({ id, body });
     this.setState({ isFormOpen: false });
@@ -46,6 +49,7 @@ class CommentListItem extends React.Component<Props> {
               <CommentForm
                 comment={comment}
                 onEditComment={this.handleEditComment}
+                onCancelButtonClick={this.handleCancelEdit}
               />
             ) : (
               comment.body

@@ -2,8 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
+import ClearIcon from 'material-ui-icons/Clear';
+import SubmitButton from './SubmitButton';
+import type { Comment } from '../util/definition';
 
-class CommentForm extends Component {
+type Props = {
+  comment: Comment,
+  postId: string,
+  onAddComment?: Function,
+  onEditComment?: Function,
+  onCancelButtonClick?: Function,
+};
+
+class CommentForm extends Component<Props> {
   state = {
     isEditing: false,
     dirty: {
@@ -31,6 +42,8 @@ class CommentForm extends Component {
       });
     }
   }
+
+  props: Props;
 
   handleChange = name => event => {
     const { value } = event.target;
@@ -121,37 +134,27 @@ class CommentForm extends Component {
             helperText={dirty.body && errors.body ? errors.body : ''}
           />
         </div>
-        <div className="form-group">
-          <Button
-            raised
+        <div className="button-actions">
+          <SubmitButton
             disabled={!valid}
-            color="primary"
             onClick={this.state.isEditing ? this.handleEdit : this.handleCreate}
-            className="submit-btn"
-          >
-            {this.state.isEditing ? 'Edit' : 'Create'}
-          </Button>
+            isEditing={this.state.isEditing}
+          />
+          {this.state.isEditing && (
+            <Button raised onClick={this.props.onCancelButtonClick}>
+              <ClearIcon className="icon-button" /> Cancel
+            </Button>
+          )}
         </div>
       </form>
     );
   }
 }
 
-CommentForm.propTypes = {
-  comment: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired,
-    body: PropTypes.string.isRequired,
-    timestamp: PropTypes.string.isRequired,
-    parentId: PropTypes.string.isRequired,
-  }),
-  postId: PropTypes.string.isRequired,
-  onAddComment: PropTypes.func.isRequired,
-  onEditComment: PropTypes.func.isRequired,
-};
-
-CommentForm.defaultProp = {
-  comment: undefined,
+CommentForm.defaultProps = {
+  onAddComment: () => undefined,
+  onEditComment: () => undefined,
+  onCancelButtonClick: () => undefined,
 };
 
 export default CommentForm;

@@ -14,9 +14,7 @@ const PostList = (props: Props) => {
   const { posts } = props;
   return (
     <div>
-      {posts.length === 0 ? (
-        <Typography type="headline">No posts to display</Typography>
-      ) : (
+      {posts.length > 0 ? (
         posts.map(post => (
           <PostListItem
             post={post}
@@ -25,6 +23,8 @@ const PostList = (props: Props) => {
             onDelete={props.onDelete}
           />
         ))
+      ) : (
+        <Typography type="headline">No posts to display</Typography>
       )}
     </div>
   );

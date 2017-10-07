@@ -28,10 +28,10 @@ function commentReducer(state = initialState, action) {
     }
     case ADD_COMMENT_SUCCESS: {
       const { comment: newComment } = action;
-      const { comments } = state;
+      const { comments, selectedSort: { by, order } } = state;
       return {
         ...state,
-        comments: [...comments, newComment],
+        comments: sortComments([...comments, newComment], by, order),
       };
     }
     case EDIT_COMMENT_SUCCESS: {

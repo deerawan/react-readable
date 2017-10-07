@@ -12,20 +12,24 @@ const api = axios.create({
   },
 });
 
+/* CATEGORY */
+
+export function fetchCategories(): Category[] {
+  return api.get(`/categories`).then(response => response.data.categories);
+}
+
+/* POST */
+
 export function fetchPosts(): Post[] {
-  return api.get(`/posts`).then(response => {
-    const { data: posts } = response;
+  return api
+    .get(`/posts`)
+    .then(({ data: posts }) => mergePostsWithCommentCount(posts));
+}
 
-    const getCommentsPromises = posts.map(p => fetchCommentsByPost(p.id));
-    return Promise.all(getCommentsPromises).then(comments => {
-      const postsWithComments = posts.map((post, index) => ({
-        ...post,
-        commentsCount: comments[index].length,
-      }));
-
-      return postsWithComments;
-    });
-  });
+export function fetchPostsByCategory(category) {
+  return api
+    .get(`/${category}/posts`)
+    .then(({ data: posts }) => mergePostsWithCommentCount(posts));
 }
 
 export function fetchPost(id): Post {
@@ -33,14 +37,10 @@ export function fetchPost(id): Post {
     const { data: post } = response;
 
     return fetchCommentsByPost(post.id).then(comments => ({
-        ...post,
-        commentsCount: comments.length,
-      }));
+      ...post,
+      commentsCount: comments.length,
+    }));
   });
-}
-
-export function fetchCategories(): Category[] {
-  return api.get(`/categories`).then(response => response.data.categories);
 }
 
 export function addPost(post) {
@@ -54,7 +54,7 @@ export function addPost(post) {
       author,
       category,
     })
-    .then(response => response.data);
+    .then(({ data: newPost }) => mergeSinglePostWithCommentCount(newPost));
 }
 
 export function editPost(post) {
@@ -72,14 +72,43 @@ export function deletePost(id) {
 }
 
 export function votePost(id, option) {
-  return api.post(`/posts/${id}`, { option }).then(response => response.data);
+  return api
+    .post(`/posts/${id}`, { option })
+    .then(({ data: post }) => mergeSinglePostWithCommentCount(post));
 }
 
-export function fetchPostsByCategory(category) {
-  return api.get(`/${category}/posts`).then(response => response.data);
+/**
+ * Merge single post with single comment count
+ *
+ * @param {Post} post
+ * @returns
+ */
+function mergeSinglePostWithCommentCount(post: Post) {
+  return fetchCommentsByPost(post.id).then(comments => ({
+    ...post,
+    commentsCount: comments.length,
+  }));
 }
 
-/** COMMENTS */
+/**
+ * Merge multiple posts with comments count
+ *
+ * @param {Post[]} posts
+ * @returns
+ */
+function mergePostsWithCommentCount(posts: Post[]) {
+  const getCommentsPromises = posts.map(p => fetchCommentsByPost(p.id));
+  return Promise.all(getCommentsPromises).then(comments => {
+    const postsWithComments = posts.map((post, index) => ({
+      ...post,
+      commentsCount: comments[index].length,
+    }));
+
+    return postsWithComments;
+  });
+}
+
+/* COMMENTS */
 
 export function fetchCommentsByPost(postId) {
   return api.get(`/posts/${postId}/comments`).then(response => response.data);
