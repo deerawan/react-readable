@@ -130,7 +130,7 @@ export function fetchPostsByCategorySuccess(posts) {
 export function fetchPosts() {
   return dispatch => {
     dispatch(fetchPostsRequest());
-    api.fetchPosts().then(response => {
+    return api.fetchPosts().then(response => {
       dispatch(fetchPostsSuccess(response));
     });
   };
@@ -139,7 +139,7 @@ export function fetchPosts() {
 export function fetchPost(id) {
   return dispatch => {
     dispatch(fetchPostRequest());
-    api
+    return api
       .fetchPost(id)
       .then(post => dispatch(fetchPostSuccess(post)))
       .catch(() => dispatch(fetchPostFailed()));
@@ -149,7 +149,7 @@ export function fetchPost(id) {
 export function fetchPostsByCategory(category) {
   return dispatch => {
     dispatch(fetchPostByCategoryRequest());
-    api
+    return api
       .fetchPostsByCategory(category)
       .then(posts => dispatch(fetchPostsByCategorySuccess(posts)));
   };
@@ -158,7 +158,7 @@ export function fetchPostsByCategory(category) {
 export function addPost(post) {
   return dispatch => {
     dispatch(addPostRequest());
-    api
+    return api
       .addPost(post)
       .then(newPost => {
         dispatch(addPostSuccess(newPost));
@@ -171,7 +171,7 @@ export function addPost(post) {
 export function editPost(post) {
   return dispatch => {
     dispatch(editPostRequest());
-    api.editPost(post).then(updatedPost => {
+    return api.editPost(post).then(updatedPost => {
       dispatch(editPostSuccess(updatedPost));
       dispatch(push(link.postDetail(updatedPost)));
     });

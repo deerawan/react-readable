@@ -59,27 +59,21 @@ export function sortComments(sortBy, sortOrder = 'asc') {
 }
 
 export function fetchCommentsByPost(postId) {
-  return dispatch => {
-    api
+  return dispatch => api
       .fetchCommentsByPost(postId)
       .then(comments => dispatch(receiveCommentsSuccess(comments)));
-  };
 }
 
 export function addComment(newComment) {
-  return dispatch => {
-    api
+  return dispatch => api
       .addComment(newComment)
       .then(comment => dispatch(addCommentSuccess(comment)));
-  };
 }
 
 export function editComment(updatedComment) {
-  return dispatch => {
-    api
+  return dispatch => api
       .editComment(updatedComment)
       .then(comment => dispatch(editCommentSuccess(comment)));
-  };
 }
 
 export function deleteComment(commentId) {

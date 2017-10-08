@@ -11,32 +11,59 @@ import './PostForm.css';
 import type { Post, Category } from '../util/definition';
 
 type Props = {
-  post: Post,
+  post: Post, // store post fetched from server, useful if we haven't store all posts in state
+  posts: Post[],
   postLoading: boolean,
   categories: Category[],
   addPost: Function,
   editPost: Function,
   fetchPost: Function,
+  match: any,
 };
 
 class PostForm extends Component<Props> {
-  state = {
-    isEditing: false,
-    dirty: {
-      author: false,
-      title: false,
-      body: false,
-      category: false,
-    },
-    id: '',
-    author: '',
-    title: '',
-    body: '',
-    category: '',
-  };
+  constructor(props) {
+    super(props);
+
+    let initialPost = {
+      id: '',
+      author: '',
+      title: '',
+      body: '',
+      category: '',
+    };
+    let isEditing = false;
+
+    // NOTE: if the edited post exist in our posts state, we want to load it from there
+    // instead of fetching to server
+    if (this.props.match && this.props.match.params.id) {
+      isEditing = true;
+      const selectedPost = this.props.posts.find(
+        p => p.id === this.props.match.params.id
+      );
+      if (selectedPost) {
+        initialPost = selectedPost;
+      }
+    }
+
+    this.state = {
+      isEditing,
+      dirty: {
+        author: false,
+        title: false,
+        body: false,
+        category: false,
+      },
+      post: initialPost,
+    };
+  }
 
   componentDidMount() {
-    if (this.props.match && this.props.match.params.id) {
+    if (
+      this.props.match &&
+      this.props.match.params.id &&
+      this.state.post.id === ''
+    ) {
       this.props.fetchPost(this.props.match.params.id);
     }
   }
@@ -44,14 +71,8 @@ class PostForm extends Component<Props> {
   componentWillReceiveProps(nextProps) {
     const { post: { id } } = nextProps;
     if (id) {
-      const { title, body, author, category } = nextProps.post;
       this.setState({
-        id,
-        title,
-        body,
-        author,
-        category,
-        isEditing: true,
+        post: nextProps.post,
       });
     }
   }
@@ -62,15 +83,20 @@ class PostForm extends Component<Props> {
 
   handleChange = name => event => {
     const { value } = event.target;
+    const { post } = this.state;
 
     this.setState(state => ({
-      [name]: value,
+      post: {
+        ...post,
+        [name]: value,
+      },
       dirty: { ...state.dirty, [name]: true },
     }));
   };
 
   handleCreate = () => {
-    const { title, body, category, author } = this.state;
+    const { title, body, category, author } = this.state.post;
+
     this.props.addPost({
       title,
       body,
@@ -80,7 +106,7 @@ class PostForm extends Component<Props> {
   };
 
   handleEdit = () => {
-    const { id, title, body } = this.state;
+    const { id, title, body } = this.state.post;
     this.props.editPost({
       id,
       title,
@@ -89,7 +115,7 @@ class PostForm extends Component<Props> {
   };
 
   validateForm = () => {
-    const { title, body, category, author } = this.state;
+    const { title, body, category, author } = this.state.post;
     const errors = {
       title: '',
       body: '',
@@ -117,7 +143,8 @@ class PostForm extends Component<Props> {
   };
 
   render() {
-    const { title, body, author, category, dirty } = this.state;
+    const { title, body, author, category } = this.state.post;
+    const { dirty } = this.state;
     const { errors, valid } = this.validateForm();
 
     return (

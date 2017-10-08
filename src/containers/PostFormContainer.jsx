@@ -5,6 +5,7 @@ import PostForm from '../components/PostForm';
 const mapStateToProps = ({ post, category }) => ({
   categories: category.categories,
   post: post.selectedPost,
+  posts: post.posts,
   postLoading: post.loading,
 });
 

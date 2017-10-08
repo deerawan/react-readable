@@ -19,7 +19,7 @@ export function fetchCategoriesSuccess(categories) {
 export function fetchCategories() {
   return dispatch => {
     dispatch(fetchCategoriesRequest());
-    api.fetchCategories().then(response => {
+    return api.fetchCategories().then(response => {
       dispatch(fetchCategoriesSuccess(response));
     });
   };
