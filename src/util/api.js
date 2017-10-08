@@ -5,7 +5,7 @@ import * as uuid from 'uuid';
 import type { Post, Category } from './definition';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3001',
+  baseURL: process.env.REACT_APP_API_URL,
   timeout: 1000,
   headers: {
     authorization: 'whatever',

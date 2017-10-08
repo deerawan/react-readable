@@ -14,7 +14,6 @@ A react application to manage post and comments
 
 ![readable](https://raw.githubusercontent.com/deerawan/react-readable/master/images/react-readable-featured.gif)
 
-
 ## Install
 After clone this repository, run command below
 ```
