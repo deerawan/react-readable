@@ -95,23 +95,11 @@ class PostForm extends Component<Props> {
   };
 
   handleCreate = () => {
-    const { title, body, category, author } = this.state.post;
-
-    this.props.addPost({
-      title,
-      body,
-      category,
-      author,
-    });
+    this.props.addPost(this.state.post);
   };
 
   handleEdit = () => {
-    const { id, title, body } = this.state.post;
-    this.props.editPost({
-      id,
-      title,
-      body,
-    });
+    this.props.editPost(this.state.post);
   };
 
   validateForm = () => {

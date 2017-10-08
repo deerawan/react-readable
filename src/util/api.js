@@ -58,11 +58,13 @@ export function addPost(post) {
 }
 
 export function editPost(post) {
-  const { id, title, body } = post;
+  const { id, title, body, category, author } = post;
   return api
     .put(`/posts/${id}`, {
       title,
       body,
+      category,
+      author,
     })
     .then(response => response.data);
 }
