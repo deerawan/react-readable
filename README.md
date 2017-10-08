@@ -12,7 +12,8 @@ A react application to manage post and comments
 - Sort posts by vote score, date time, title and author
 - Sort comments by vote score, date time and author
 
-![readable](https://github.com/deerawan/react-myreads/blob/master/images/react-readable-featured.gif?raw=true)
+![readable](https://raw.githubusercontent.com/deerawan/react-readable/master/images/react-readable-featured.gif)
+
 
 ## Install
 After clone this repository, run command below
