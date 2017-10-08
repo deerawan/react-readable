@@ -21,6 +21,11 @@ npm install
 ```
 it will install all library dependencies for this project.
 
+Create `.env.local` and specify your API URL in your development machine
+```
+REACT_APP_API_URL=http://my-local-api-server
+```
+
 ## Usage
 Run command below
 ```

@@ -6,7 +6,7 @@ import type { Post, Category } from './definition';
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
-  timeout: 1000,
+  timeout: 10000,
   headers: {
     authorization: 'whatever',
   },
