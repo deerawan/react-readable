@@ -7,3 +7,7 @@ export function postDetail(post: Post) {
 export function categoryPost(category: Category) {
   return `/${category.name}`;
 }
+
+export function home() {
+  return '/';
+}

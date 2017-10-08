@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
 import {
@@ -23,6 +24,7 @@ import PostDetail from '../components/PostDetail';
 import SortSelect from '../components/SortSelect';
 import Spinner from '../components/Spinner';
 import type { Post, Comment, SortList, SortOption } from '../util/definition';
+import * as link from '../util/link';
 
 type Props = {
   post: Post,
@@ -112,7 +114,10 @@ const mapStateToProps = ({ post, comment }) => ({
 const mapDispatchToProps = dispatch => ({
   fetchPost: id => dispatch(fetchPost(id)),
   fetchCommentsByPost: id => dispatch(fetchCommentsByPost(id)),
-  deletePost: id => dispatch(deletePost(id)),
+  deletePost: id => {
+    dispatch(deletePost(id));
+    dispatch(push(link.home()));
+  },
   voteUpPost: id => dispatch(voteUpPost(id)),
   voteDownPost: id => dispatch(voteDownPost(id)),
   addComment: comment => dispatch(addComment(comment)),
