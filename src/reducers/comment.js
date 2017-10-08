@@ -1,7 +1,9 @@
 import * as _ from 'lodash';
 import {
+  ADD_COMMENT_REQUEST,
   ADD_COMMENT_SUCCESS,
   RECEIVE_COMMENTS_SUCCESS,
+  EDIT_COMMENT_REQUEST,
   EDIT_COMMENT_SUCCESS,
   DELETE_COMMENT_SUCCESS,
   VOTE_UP_COMMENT_REQUEST,
@@ -12,6 +14,7 @@ import * as sortOption from '../util/sortOption';
 import { SORT_ORDER, VOTE_TYPE } from '../constant';
 
 const initialState = {
+  loading: false,
   sortOptions: [sortOption.voteScore, sortOption.dateTime, sortOption.author],
   selectedSort: {
     by: 'voteScore',
@@ -26,7 +29,15 @@ function commentReducer(state = initialState, action) {
       const { selectedSort: { by, order } } = state;
       return {
         ...state,
+        loading: false,
         comments: sortComments(action.comments, by, order),
+      };
+    }
+    case ADD_COMMENT_REQUEST:
+    case EDIT_COMMENT_REQUEST: {
+      return {
+        ...state,
+        loading: true,
       };
     }
     case ADD_COMMENT_SUCCESS: {
@@ -34,6 +45,7 @@ function commentReducer(state = initialState, action) {
       const { comments, selectedSort: { by, order } } = state;
       return {
         ...state,
+        loading: false,
         comments: sortComments([...comments, newComment], by, order),
       };
     }
@@ -45,6 +57,7 @@ function commentReducer(state = initialState, action) {
       );
       return {
         ...state,
+        loading: false,
         comments: [
           ...comments.slice(0, oldCommentIndex),
           updatedComment,
@@ -57,6 +70,7 @@ function commentReducer(state = initialState, action) {
       const { comments } = state;
       return {
         ...state,
+        loading: false,
         comments: comments.filter(c => c.id !== deletedComment.id),
       };
     }

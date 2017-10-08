@@ -10,6 +10,7 @@ import type { Comment } from '../util/definition';
 
 type Props = {
   comment: Comment,
+  loading: boolean,
   onEditComment: Function,
   onDeleteComment: Function,
   onVoteUpComment: Function,
@@ -49,6 +50,7 @@ class CommentListItem extends React.Component<Props> {
                 comment={comment}
                 onEditComment={this.handleEditComment}
                 onCancelButtonClick={this.handleCancelEdit}
+                loading={this.props.loading}
               />
             ) : (
               comment.body

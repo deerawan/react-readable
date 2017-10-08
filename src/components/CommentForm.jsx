@@ -7,6 +7,7 @@ import type { Comment } from '../util/definition';
 
 type Props = {
   comment: Comment,
+  loading: boolean,
   postId: string,
   onAddComment?: Function,
   onEditComment?: Function,
@@ -136,6 +137,7 @@ class CommentForm extends Component<Props> {
         <div className="button-actions">
           <SubmitButton
             disabled={!valid}
+            loading={this.props.loading}
             onClick={this.state.isEditing ? this.handleEdit : this.handleCreate}
             isEditing={this.state.isEditing}
           />

@@ -30,6 +30,7 @@ type Props = {
   post: Post,
   postLoading: boolean,
   comments: Comment[],
+  commentLoading: boolean,
   commentSortOptions: SortOption[],
   fetchPost: Function,
   deletePost: Function,
@@ -84,6 +85,7 @@ class PostDetailContainer extends React.Component<Props> {
             onDeleteComment={this.props.deleteComment}
             onVoteUpComment={this.props.voteUpComment}
             onVoteDownComment={this.props.voteDownComment}
+            loading={this.props.commentLoading}
           />
         </div>
         <Divider />
@@ -94,6 +96,7 @@ class PostDetailContainer extends React.Component<Props> {
           <CommentForm
             postId={this.props.post.id}
             onAddComment={this.props.addComment}
+            loading={this.props.commentLoading}
           />
         </div>
       </div>
@@ -106,6 +109,7 @@ class PostDetailContainer extends React.Component<Props> {
 const mapStateToProps = ({ post, comment }) => ({
   post: post.selectedPost,
   postLoading: post.loading,
+  commentLoading: comment.loading,
   comments: comment.comments,
   commentSortOptions: comment.sortOptions,
   selectedSort: comment.selectedSort,

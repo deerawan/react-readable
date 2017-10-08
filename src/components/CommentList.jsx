@@ -5,6 +5,7 @@ import type { Comment } from '../util/definition';
 
 type Props = {
   comments: Comment[],
+  loading: boolean,
   onEditComment: Function,
   onDeleteComment: Function,
   onVoteUpComment: Function,
@@ -18,6 +19,7 @@ const CommentList = (props: Props) => (
         <CommentListItem
           key={comment.id}
           comment={comment}
+          loading={props.loading}
           onEditComment={props.onEditComment}
           onDeleteComment={props.onDeleteComment}
           onVoteUpComment={() => props.onVoteUpComment(comment.id)}

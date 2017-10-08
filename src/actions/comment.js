@@ -1,7 +1,9 @@
 import * as api from '../util/api';
 import { VOTE_TYPE } from '../constant';
 
+export const ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUEST';
 export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';
+export const EDIT_COMMENT_REQUEST = 'EDIT_COMMENT_REQUEST';
 export const EDIT_COMMENT_SUCCESS = 'EDIT_COMMENT_SUCCESS';
 export const RECEIVE_COMMENTS_SUCCESS = 'RECEIVE_COMMENTS_SUCCESS';
 export const DELETE_COMMENT_SUCCESS = 'DELETE_COMMENT_SUCCESS';
@@ -18,10 +20,22 @@ export function receiveCommentsSuccess(comments) {
   };
 }
 
+export function addCommentRequest() {
+  return {
+    type: ADD_COMMENT_REQUEST,
+  };
+}
+
 export function addCommentSuccess(comment) {
   return {
     type: ADD_COMMENT_SUCCESS,
     comment,
+  };
+}
+
+export function editCommentRequest() {
+  return {
+    type: EDIT_COMMENT_REQUEST,
   };
 }
 
@@ -83,17 +97,21 @@ export function fetchCommentsByPost(postId) {
 }
 
 export function addComment(newComment) {
-  return dispatch =>
-    api
+  return dispatch => {
+    dispatch(addCommentRequest());
+    return api
       .addComment(newComment)
       .then(comment => dispatch(addCommentSuccess(comment)));
+  };
 }
 
 export function editComment(updatedComment) {
-  return dispatch =>
-    api
+  return dispatch => {
+    dispatch(editCommentRequest());
+    return api
       .editComment(updatedComment)
       .then(comment => dispatch(editCommentSuccess(comment)));
+  };
 }
 
 export function deleteComment(commentId) {
