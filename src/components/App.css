@@ -1,5 +1,4 @@
-
-/** */
+/** APP BAR */
 .app-bar-title {
   color: #fff !important;
 }
@@ -33,7 +32,6 @@ button .spinner-icon {
   color: #fff;
 }
 
-
 .link-button {
   text-decoration: none
 }
@@ -47,7 +45,6 @@ button .spinner-icon {
 }
 
 /* FORM */
-
 .form-group {
   display: flex;
   flex-direction: row;

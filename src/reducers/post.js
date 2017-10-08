@@ -16,6 +16,7 @@ import {
   FETCH_POSTS_BY_CATEGORY_SUCCESS,
 } from '../actions/post';
 import * as sortOption from '../util/sortOption';
+import { SORT_ORDER } from '../constant';
 
 const initialState = {
   loading: false,
@@ -28,7 +29,7 @@ const initialState = {
   ],
   selectedSort: {
     by: 'voteScore',
-    order: 'desc',
+    order: SORT_ORDER.desc,
   },
   selectedPost: {
     id: '',

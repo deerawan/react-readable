@@ -9,12 +9,13 @@ import {
   SORT_COMMENTS,
 } from '../actions/comment';
 import * as sortOption from '../util/sortOption';
+import { SORT_ORDER } from '../constant';
 
 const initialState = {
   sortOptions: [sortOption.voteScore, sortOption.dateTime, sortOption.author],
   selectedSort: {
     by: 'voteScore',
-    order: 'desc',
+    order: SORT_ORDER.desc,
   },
   comments: [],
 };
