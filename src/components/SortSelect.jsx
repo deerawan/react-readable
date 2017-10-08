@@ -7,12 +7,13 @@ import IconButton from 'material-ui/IconButton';
 import ArrowUpwardIcon from 'material-ui-icons/ArrowUpward';
 import ArrowDownwardIcon from 'material-ui-icons/ArrowDownward';
 import { SORT_ORDER } from '../constant';
-import type { SortList } from '../util/definition';
+import type { SortList, SortOption } from '../util/definition';
 
 type Props = {
   sort: SortList,
   onSortChange: Function,
   visible: boolean,
+  sortOptions: SortOption[],
 };
 
 class SortSelect extends Component<Props> {
@@ -83,8 +84,11 @@ class SortSelect extends Component<Props> {
             onChange={event => this.handleSortByChange(event.target.value)}
             input={<Input id="post-sort" />}
           >
-            <MenuItem value="voteScore">Vote Score</MenuItem>
-            <MenuItem value="timestamp">Time</MenuItem>
+            {this.props.sortOptions.map(option => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.name}
+              </MenuItem>
+            ))}
           </Select>
         </span>
       </div>

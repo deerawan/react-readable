@@ -1,4 +1,9 @@
 
+/** */
+.app-bar-title {
+  color: #fff !important;
+}
+
 /** COLOR */
 .color-primary {
   color: #3f51b5 !important;

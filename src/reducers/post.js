@@ -15,10 +15,17 @@ import {
   FETCH_POSTS_BY_CATEGORY_REQUEST,
   FETCH_POSTS_BY_CATEGORY_SUCCESS,
 } from '../actions/post';
+import * as sortOption from '../util/sortOption';
 
 const initialState = {
   loading: false,
   posts: [],
+  sortOptions: [
+    sortOption.voteScore,
+    sortOption.dateTime,
+    sortOption.title,
+    sortOption.author,
+  ],
   selectedSort: {
     by: 'voteScore',
     order: 'desc',
@@ -111,16 +118,16 @@ function postReducer(state = initialState, action) {
       };
     }
     case FETCH_POSTS_BY_CATEGORY_SUCCESS: {
+      const { selectedSort: { by, order } } = state;
       return {
         ...state,
         loading: false,
-        posts: action.posts,
+        posts: sortPosts(action.posts, by, order),
       };
     }
     case SORT_POST: {
       const { selectedSort } = state;
-      const { by, order } = selectedSort;
-      const { sortBy = by, sortOrder = order } = action;
+      const { sortBy, sortOrder } = action;
       const { posts } = state;
 
       return {
@@ -128,6 +135,7 @@ function postReducer(state = initialState, action) {
         selectedSort: {
           ...selectedSort,
           by: sortBy,
+          order: sortOrder,
         },
         posts: sortPosts(posts, sortBy, sortOrder),
       };
@@ -163,16 +171,8 @@ function postReducer(state = initialState, action) {
   }
 }
 
-function sortPosts(posts, sortBy, sortOrder) {
-  let newOrderedPosts = posts;
-
-  if (sortBy === 'voteScore') {
-    newOrderedPosts = _.orderBy(posts, ['voteScore'], [sortOrder]);
-  } else if (sortBy === 'timestamp') {
-    newOrderedPosts = _.orderBy(posts, ['timestamp'], [sortOrder]);
-  }
-
-  return newOrderedPosts;
+function sortPosts(posts: Post[], sortBy: string, sortOrder: string) {
+  return _.orderBy(posts, [sortBy], [sortOrder]);
 }
 
 export default postReducer;

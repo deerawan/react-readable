@@ -8,8 +8,10 @@ import {
   VOTE_DOWN_COMMENT_SUCCESS,
   SORT_COMMENTS,
 } from '../actions/comment';
+import * as sortOption from '../util/sortOption';
 
 const initialState = {
+  sortOptions: [sortOption.voteScore, sortOption.dateTime, sortOption.author],
   selectedSort: {
     by: 'voteScore',
     order: 'desc',
@@ -95,16 +97,8 @@ function commentReducer(state = initialState, action) {
   }
 }
 
-function sortComments(comments, sortBy, sortOrder) {
-  let newOrderedComments = comments;
-
-  if (sortBy === 'voteScore') {
-    newOrderedComments = _.orderBy(comments, ['voteScore'], [sortOrder]);
-  } else if (sortBy === 'timestamp') {
-    newOrderedComments = _.orderBy(comments, ['timestamp'], [sortOrder]);
-  }
-
-  return newOrderedComments;
+function sortComments(comments: Comment[], sortBy: string, sortOrder: string) {
+  return _.orderBy(comments, [sortBy], [sortOrder]);
 }
 
 export default commentReducer;

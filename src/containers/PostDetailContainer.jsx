@@ -22,12 +22,13 @@ import CommentList from '../components/CommentList';
 import PostDetail from '../components/PostDetail';
 import SortSelect from '../components/SortSelect';
 import Spinner from '../components/Spinner';
-import type { Post, Comment, SortList } from '../util/definition';
+import type { Post, Comment, SortList, SortOption } from '../util/definition';
 
 type Props = {
   post: Post,
   postLoading: boolean,
   comments: Comment[],
+  commentSortOptions: SortOption[],
   fetchPost: Function,
   deletePost: Function,
   voteUpPost: Function,
@@ -71,6 +72,7 @@ class PostDetailContainer extends React.Component<Props> {
 
           <SortSelect
             sort={this.props.selectedSort}
+            sortOptions={this.props.commentSortOptions}
             onSortChange={this.props.sortComments}
             visible={this.props.comments.length > 0}
           />
@@ -103,6 +105,7 @@ const mapStateToProps = ({ post, comment }) => ({
   post: post.selectedPost,
   postLoading: post.loading,
   comments: comment.comments,
+  commentSortOptions: comment.sortOptions,
   selectedSort: comment.selectedSort,
 });
 

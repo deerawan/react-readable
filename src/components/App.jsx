@@ -78,9 +78,11 @@ const App = (props: Props) => {
       <div className={classes.appFrame}>
         <AppBar className={classes.appBar}>
           <Toolbar>
-            <Typography type="title" color="inherit" noWrap>
-              READABLE
-            </Typography>
+            <Link to="/" className="no-decor">
+              <Typography type="title" noWrap className="app-bar-title">
+                READABLE
+              </Typography>
+            </Link>
           </Toolbar>
         </AppBar>
         <Drawer

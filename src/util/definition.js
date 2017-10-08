@@ -27,3 +27,8 @@ export type SortList = {
   by: string,
   order: string,
 };
+
+export type SortOption = {
+  name: string,
+  value: string,
+};
