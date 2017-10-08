@@ -64,15 +64,10 @@ class PostForm extends Component<Props> {
       this.props.match.params.id &&
       this.state.post.id === ''
     ) {
-      this.props.fetchPost(this.props.match.params.id);
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { post: { id } } = nextProps;
-    if (id) {
-      this.setState({
-        post: nextProps.post,
+      this.props.fetchPost(this.props.match.params.id).then(() => {
+        this.setState({
+          post: this.props.post,
+        });
       });
     }
   }
@@ -83,11 +78,10 @@ class PostForm extends Component<Props> {
 
   handleChange = name => event => {
     const { value } = event.target;
-    const { post } = this.state;
 
     this.setState(state => ({
       post: {
-        ...post,
+        ...state.post,
         [name]: value,
       },
       dirty: { ...state.dirty, [name]: true },
