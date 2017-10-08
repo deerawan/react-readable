@@ -11,6 +11,7 @@ export const FETCH_POSTS_REQUEST = 'FETCH_POSTS_REQUEST';
 export const FETCH_POSTS_SUCCESS = 'FETCH_POSTS_SUCCESS';
 export const FETCH_POST_REQUEST = 'FETCH_POST_REQUEST';
 export const FETCH_POST_SUCCESS = 'FETCH_POST_SUCCESS';
+export const FETCH_POST_FAILED = 'FETCH_POST_FAILED';
 export const FETCH_POSTS_BY_CATEGORY_REQUEST =
   'FETCH_POSTS_BY_CATEGORY_REQUEST';
 export const FETCH_POSTS_BY_CATEGORY_SUCCESS =
@@ -78,6 +79,12 @@ export function fetchPostSuccess(post) {
   };
 }
 
+export function fetchPostFailed() {
+  return {
+    type: FETCH_POST_FAILED,
+  };
+}
+
 export function sortPost(sortBy, sortOrder = 'asc') {
   return {
     type: SORT_POST,
@@ -132,7 +139,10 @@ export function fetchPosts() {
 export function fetchPost(id) {
   return dispatch => {
     dispatch(fetchPostRequest());
-    api.fetchPost(id).then(post => dispatch(fetchPostSuccess(post)));
+    api
+      .fetchPost(id)
+      .then(post => dispatch(fetchPostSuccess(post)))
+      .catch(() => dispatch(fetchPostFailed()));
   };
 }
 

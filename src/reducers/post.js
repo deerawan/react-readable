@@ -9,6 +9,7 @@ import {
   FETCH_POSTS_SUCCESS,
   FETCH_POST_REQUEST,
   FETCH_POST_SUCCESS,
+  FETCH_POST_FAILED,
   VOTE_UP_POST_SUCCESS,
   VOTE_DOWN_POST_SUCCESS,
   SORT_POST,
@@ -110,6 +111,12 @@ function postReducer(state = initialState, action) {
         ...state,
         loading: false,
         selectedPost: action.post,
+      };
+    }
+    case FETCH_POST_FAILED: {
+      return {
+        ...state,
+        loading: false,
       };
     }
     case FETCH_POSTS_BY_CATEGORY_REQUEST: {
