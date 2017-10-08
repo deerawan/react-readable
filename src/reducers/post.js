@@ -10,14 +10,14 @@ import {
   FETCH_POST_REQUEST,
   FETCH_POST_SUCCESS,
   FETCH_POST_FAILED,
-  VOTE_UP_POST_SUCCESS,
-  VOTE_DOWN_POST_SUCCESS,
+  VOTE_UP_POST_REQUEST,
+  VOTE_DOWN_POST_REQUEST,
   SORT_POST,
   FETCH_POSTS_BY_CATEGORY_REQUEST,
   FETCH_POSTS_BY_CATEGORY_SUCCESS,
 } from '../actions/post';
 import * as sortOption from '../util/sortOption';
-import { SORT_ORDER } from '../constant';
+import { SORT_ORDER, VOTE_TYPE } from '../constant';
 
 const initialState = {
   loading: false,
@@ -134,9 +134,8 @@ function postReducer(state = initialState, action) {
       };
     }
     case SORT_POST: {
-      const { selectedSort } = state;
+      const { posts, selectedSort } = state;
       const { sortBy, sortOrder } = action;
-      const { posts } = state;
 
       return {
         ...state,
@@ -148,35 +147,49 @@ function postReducer(state = initialState, action) {
         posts: sortPosts(posts, sortBy, sortOrder),
       };
     }
-    case VOTE_UP_POST_SUCCESS:
-    case VOTE_DOWN_POST_SUCCESS: {
-      const { post: postWithNewVote } = action;
-      const { posts, selectedPost, selectedSort: { by, order } } = state;
-      const oldPostIndex = posts.findIndex(p => p.id === postWithNewVote.id);
-      const updatedPosts = [
-        ...posts.slice(0, oldPostIndex),
-        postWithNewVote,
-        ...posts.slice(oldPostIndex + 1, posts.length),
-      ];
-
-      // NOTE: make sure selected post is same with updated post
-      const updatedSelectedPost =
-        selectedPost.id === postWithNewVote.id
-          ? {
-              ...selectedPost,
-              voteScore: postWithNewVote.voteScore,
-            }
-          : selectedPost;
-
-      return {
-        ...state,
-        posts: sortPosts(updatedPosts, by, order),
-        selectedPost: updatedSelectedPost,
-      };
+    case VOTE_UP_POST_REQUEST: {
+      return votePost(state, action, VOTE_TYPE.upVote);
+    }
+    case VOTE_DOWN_POST_REQUEST: {
+      return votePost(state, action, VOTE_TYPE.downVote);
     }
     default:
       return state;
   }
+}
+
+function votePost(state, action, voteType: string) {
+  const { id } = action;
+  const { posts, selectedPost, selectedSort: { by, order } } = state;
+  const votedPostIndex = posts.findIndex(p => p.id === id);
+  if (votedPostIndex < 0) {
+    return state;
+  }
+
+  const votedPost = posts[votedPostIndex];
+  const updatedVotedPost = {
+    ...votedPost,
+    voteScore:
+      voteType === VOTE_TYPE.upVote
+        ? votedPost.voteScore + 1
+        : votedPost.voteScore - 1,
+  };
+
+  const updatedPosts = [
+    ...posts.slice(0, votedPostIndex),
+    updatedVotedPost,
+    ...posts.slice(votedPostIndex + 1, posts.length),
+  ];
+
+  // NOTE: update selected post with new vote score as well
+  const updatedSelectedPost =
+    selectedPost.id === votedPost.id ? updatedVotedPost : selectedPost;
+
+  return {
+    ...state,
+    posts: sortPosts(updatedPosts, by, order),
+    selectedPost: updatedSelectedPost,
+  };
 }
 
 function sortPosts(posts: Post[], sortBy: string, sortOrder: string) {

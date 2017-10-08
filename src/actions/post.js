@@ -1,6 +1,7 @@
 import { push } from 'react-router-redux';
 import * as api from '../util/api';
 import * as link from '../util/link';
+import { VOTE_TYPE } from '../constant';
 
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
@@ -18,7 +19,9 @@ export const FETCH_POSTS_BY_CATEGORY_SUCCESS =
   'FETCH_POSTS_BY_CATEGORY_SUCCESS';
 export const SORT_POST = 'SORT_POST';
 export const DELETE_POST_SUCCESS = 'DELETE_POST_SUCCESS';
+export const VOTE_UP_POST_REQUEST = 'VOTE_UP_POST_REQUEST';
 export const VOTE_UP_POST_SUCCESS = 'VOTE_UP_POST_SUCCESS';
+export const VOTE_DOWN_POST_REQUEST = 'VOTE_DOWN_POST_REQUEST';
 export const VOTE_DOWN_POST_SUCCESS = 'VOTE_DOWN_POST_SUCCESS';
 
 export function addPostRequest() {
@@ -100,10 +103,24 @@ export function deletePostSuccess(post) {
   };
 }
 
+export function voteUpPostRequest(id) {
+  return {
+    type: VOTE_UP_POST_REQUEST,
+    id,
+  };
+}
+
 export function voteUpPostSuccess(post) {
   return {
     type: VOTE_UP_POST_SUCCESS,
     post,
+  };
+}
+
+export function voteDownPostRequest(id) {
+  return {
+    type: VOTE_DOWN_POST_REQUEST,
+    id,
   };
 }
 
@@ -184,13 +201,19 @@ export function deletePost(id) {
 }
 
 export function voteUpPost(id) {
-  return dispatch =>
-    api.votePost(id, 'upVote').then(post => dispatch(voteUpPostSuccess(post)));
+  return dispatch => {
+    dispatch(voteUpPostRequest(id));
+    return api
+      .votePost(id, VOTE_TYPE.upVote)
+      .then(post => dispatch(voteUpPostSuccess(post)));
+  };
 }
 
 export function voteDownPost(id) {
-  return dispatch =>
-    api
-      .votePost(id, 'downVote')
+  return dispatch => {
+    dispatch(voteDownPostRequest(id));
+    return api
+      .votePost(id, VOTE_TYPE.downVote)
       .then(post => dispatch(voteDownPostSuccess(post)));
+  };
 }

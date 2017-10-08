@@ -1,10 +1,13 @@
 import * as api from '../util/api';
+import { VOTE_TYPE } from '../constant';
 
 export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';
 export const EDIT_COMMENT_SUCCESS = 'EDIT_COMMENT_SUCCESS';
 export const RECEIVE_COMMENTS_SUCCESS = 'RECEIVE_COMMENTS_SUCCESS';
 export const DELETE_COMMENT_SUCCESS = 'DELETE_COMMENT_SUCCESS';
+export const VOTE_UP_COMMENT_REQUEST = 'VOTE_UP_COMMENT_REQUEST';
 export const VOTE_UP_COMMENT_SUCCESS = 'VOTE_UP_COMMENT_SUCCESS';
+export const VOTE_DOWN_COMMENT_REQUEST = 'VOTE_DOWN_COMMENT_REQUEST';
 export const VOTE_DOWN_COMMENT_SUCCESS = 'VOTE_DOWN_COMMENT_SUCCESS';
 export const SORT_COMMENTS = 'SORT_COMMENTS';
 
@@ -36,10 +39,24 @@ export function deleteCommentSuccess(comment) {
   };
 }
 
+export function voteUpCommentRequest(id) {
+  return {
+    type: VOTE_UP_COMMENT_REQUEST,
+    id,
+  };
+}
+
 export function voteUpCommentSuccess(comment) {
   return {
     type: VOTE_UP_COMMENT_SUCCESS,
     comment,
+  };
+}
+
+export function voteDownCommentRequest(id) {
+  return {
+    type: VOTE_DOWN_COMMENT_REQUEST,
+    id,
   };
 }
 
@@ -59,19 +76,22 @@ export function sortComments(sortBy, sortOrder = 'asc') {
 }
 
 export function fetchCommentsByPost(postId) {
-  return dispatch => api
+  return dispatch =>
+    api
       .fetchCommentsByPost(postId)
       .then(comments => dispatch(receiveCommentsSuccess(comments)));
 }
 
 export function addComment(newComment) {
-  return dispatch => api
+  return dispatch =>
+    api
       .addComment(newComment)
       .then(comment => dispatch(addCommentSuccess(comment)));
 }
 
 export function editComment(updatedComment) {
-  return dispatch => api
+  return dispatch =>
+    api
       .editComment(updatedComment)
       .then(comment => dispatch(editCommentSuccess(comment)));
 }
@@ -85,15 +105,19 @@ export function deleteComment(commentId) {
 }
 
 export function voteUpComment(id) {
-  return dispatch =>
-    api
-      .voteComment(id, 'upVote')
+  return dispatch => {
+    dispatch(voteUpCommentRequest(id));
+    return api
+      .voteComment(id, VOTE_TYPE.upVote)
       .then(post => dispatch(voteUpCommentSuccess(post)));
+  };
 }
 
 export function voteDownComment(id) {
-  return dispatch =>
-    api
-      .voteComment(id, 'downVote')
+  return dispatch => {
+    dispatch(voteDownCommentRequest(id));
+    return api
+      .voteComment(id, VOTE_TYPE.downVote)
       .then(post => dispatch(voteDownCommentSuccess(post)));
+  };
 }

@@ -4,12 +4,12 @@ import {
   RECEIVE_COMMENTS_SUCCESS,
   EDIT_COMMENT_SUCCESS,
   DELETE_COMMENT_SUCCESS,
-  VOTE_UP_COMMENT_SUCCESS,
-  VOTE_DOWN_COMMENT_SUCCESS,
+  VOTE_UP_COMMENT_REQUEST,
+  VOTE_DOWN_COMMENT_REQUEST,
   SORT_COMMENTS,
 } from '../actions/comment';
 import * as sortOption from '../util/sortOption';
-import { SORT_ORDER } from '../constant';
+import { SORT_ORDER, VOTE_TYPE } from '../constant';
 
 const initialState = {
   sortOptions: [sortOption.voteScore, sortOption.dateTime, sortOption.author],
@@ -75,27 +75,43 @@ function commentReducer(state = initialState, action) {
         comments: sortComments(comments, sortBy, sortOrder),
       };
     }
-    case VOTE_UP_COMMENT_SUCCESS:
-    case VOTE_DOWN_COMMENT_SUCCESS: {
-      const { comment: commentWithNewVote } = action;
-      const { comments, selectedSort: { by, order } } = state;
-      const oldPostIndex = comments.findIndex(
-        p => p.id === commentWithNewVote.id
-      );
-      const updatedPosts = [
-        ...comments.slice(0, oldPostIndex),
-        commentWithNewVote,
-        ...comments.slice(oldPostIndex + 1, comments.length),
-      ];
-
-      return {
-        ...state,
-        comments: sortComments(updatedPosts, by, order),
-      };
+    case VOTE_UP_COMMENT_REQUEST: {
+      return voteComment(state, action, VOTE_TYPE.upVote);
+    }
+    case VOTE_DOWN_COMMENT_REQUEST: {
+      return voteComment(state, action, VOTE_TYPE.downVote);
     }
     default:
       return state;
   }
+}
+
+function voteComment(state, action, voteType: string) {
+  const { id } = action;
+  const { comments, selectedSort: { by, order } } = state;
+  const votedCommentIndex = comments.findIndex(p => p.id === id);
+  if (votedCommentIndex < 0) {
+    return state;
+  }
+
+  const votedComment = comments[votedCommentIndex];
+  const updatedVotedComment = {
+    ...votedComment,
+    voteScore:
+      voteType === VOTE_TYPE.upVote
+        ? votedComment.voteScore + 1
+        : votedComment.voteScore - 1,
+  };
+  const updatedComments = [
+    ...comments.slice(0, votedCommentIndex),
+    updatedVotedComment,
+    ...comments.slice(votedCommentIndex + 1, comments.length),
+  ];
+
+  return {
+    ...state,
+    comments: sortComments(updatedComments, by, order),
+  };
 }
 
 function sortComments(comments: Comment[], sortBy: string, sortOrder: string) {
