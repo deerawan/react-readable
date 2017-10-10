@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import HomeIcon from 'material-ui-icons/Home';
+import PublicIcon from 'material-ui-icons/Public';
 import Divider from 'material-ui/Divider';
 import { Link } from 'react-router-dom';
 import { fetchCategories } from '../actions/category';
@@ -35,6 +36,19 @@ class Sidebar extends Component<Props> {
             <ListItemText primary="Home" />
           </ListItem>
         </Link>
+        <a
+          href="https://github.com/deerawan/react-readable"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="link-button"
+        >
+          <ListItem button>
+            <ListItemIcon>
+              <PublicIcon className="color-primary" />
+            </ListItemIcon>
+            <ListItemText primary="Github" />
+          </ListItem>
+        </a>
         <Divider />
         {this.props.categoryLoading ? (
           <Spinner />
