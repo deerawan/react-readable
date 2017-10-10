@@ -18,7 +18,16 @@ import reducer from './reducers';
 const history = createHistory();
 const router = routerMiddleware(history);
 
-const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk, logger, router)));
+const middlewares = [thunk, router];
+
+if (process.env.NODE_ENV !== 'production') {
+  middlewares.push(logger);
+}
+
+const store = createStore(
+  reducer,
+  composeWithDevTools(applyMiddleware(...middlewares))
+);
 
 ReactDOM.render(
   <Provider store={store}>
